@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.ASP", "DotNetTN.AS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Facebook", "DotNetTN.Facebook\DotNetTN.Facebook.csproj", "{8D6E9D76-DE6D-4AC5-8957-4FB2F231F2B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Tests", "DotNetTN.Tests\DotNetTN.Tests.csproj", "{E2D7FE4C-B3FE-4141-9FBB-8891548E9258}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{8D6E9D76-DE6D-4AC5-8957-4FB2F231F2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D6E9D76-DE6D-4AC5-8957-4FB2F231F2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D6E9D76-DE6D-4AC5-8957-4FB2F231F2B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D7FE4C-B3FE-4141-9FBB-8891548E9258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D7FE4C-B3FE-4141-9FBB-8891548E9258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D7FE4C-B3FE-4141-9FBB-8891548E9258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D7FE4C-B3FE-4141-9FBB-8891548E9258}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
