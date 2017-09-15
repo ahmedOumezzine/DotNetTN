@@ -18,6 +18,9 @@ namespace DotNetTN.Connector.SQL.Interface
         InsertBuilder InsertBuilder { get; set; }
                SqlQueryBuilder SqlQueryBuilder { get; set; }
 
+        UpdateBuilder UpdateBuilder { get; set; }
+
+        DeleteBuilder DeleteBuilder { get; set; }
 
         string SqlParameterKeyWord { get; }
         string SqlFalse { get; }

@@ -9,6 +9,7 @@ namespace DotNetTN.Connector.SQL.Common
 {
     public static class Extensions
     {
+
         public static Type GetTypeInfo(this Type typeInfo)
         {
             return typeInfo;

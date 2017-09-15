@@ -44,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MySql\Builder\MySqlBuilder.cs" />
+    <Compile Include="MySql\DeleteBuilder\MySqlDeleteBuilder.cs" />
     <Compile Include="MySql\InsertBuilder\MySqlInsertBuilder.cs" />
     <Compile Include="MySql\MySqlProvider.cs" />
+    <Compile Include="MySql\UpdateBuilder\MySqlUpdateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQL\AdoProvider\AdoAccessory.cs" />
     <Compile Include="SQL\AdoProvider\AdoProvider.cs" />
@@ -77,10 +79,14 @@
     <Compile Include="SQL\Mapping\MappingAttribute.cs" />
     <Compile Include="SQL\Mapping\MappingColumn.cs" />
     <Compile Include="SQL\Mapping\MappingTable.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\DeleteableProvider.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\DeleteBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertableProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\SqlBuilderProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\SqlQueryBuilder.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\UpdateableProvider.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\UpdateBuilder.cs" />
     <Compile Include="SQL\SqlClient.cs" />
   </ItemGroup>
   <ItemGroup>

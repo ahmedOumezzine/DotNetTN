@@ -104,5 +104,16 @@ namespace DotNetTN.Connector.SQL
         {
             return base.CreateInsertable(insertObj);
         }
+
+        public virtual IInsertable<T> Updateable<T>(T UpdateObjs) where T : class, new()
+        {
+            return base.CreateUpdateable(UpdateObjs);
+        }
+
+        public virtual IInsertable<T> Deleteable<T>(T DeletObj) where T : class, new()
+        {
+            return base.CreateInsertable(DeletObj);
+        }
+
     }
 }

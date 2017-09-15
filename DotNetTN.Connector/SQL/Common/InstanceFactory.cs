@@ -15,8 +15,18 @@ namespace DotNetTN.Connector.SQL.Common
         static Assembly assembly = Assembly.Load(UtilConstants.AssemblyName);
         static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
 
-      
-       
+
+        public static UpdateBuilder GetUpdateBuilder(Config currentConnectionConfig)
+        {
+            UpdateBuilder result = CreateInstance<UpdateBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "UpdateBuilder"));
+            return result;
+        }
+
+        public static DeleteBuilder GetDeleteBuilder(Config currentConnectionConfig)
+        {
+            DeleteBuilder result = CreateInstance<DeleteBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "DeleteBuilder"));
+            return result;
+        }
         public static InsertBuilder GetInsertBuilder(Config currentConnectionConfig)
         {
             InsertBuilder result = CreateInstance<InsertBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "InsertBuilder"));

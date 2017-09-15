@@ -10,7 +10,7 @@ namespace DotNetTN.Tests.Connector
 {
     public class Base
     {
-        public static string ConnectionString = "server=localhost;Database=SqlSugar4xTest;Uid=root;Pwd=root";
+        public static string ConnectionString = "server=localhost;Database=Dotnetdb;Uid=root;Pwd=";
 
         public static SqlClient GetInstance()
         {

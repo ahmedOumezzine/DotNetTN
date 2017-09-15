@@ -159,6 +159,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             
         }
 
+        public IInsertable<T> Where(T deleteObj)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

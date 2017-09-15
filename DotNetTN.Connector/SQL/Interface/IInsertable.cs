@@ -12,6 +12,7 @@ namespace DotNetTN.Connector.SQL.Interface
     public interface IInsertable<T>
     {
         int ExecuteCommand();
+        IInsertable<T> Where(T deleteObj);
 
     }
 }

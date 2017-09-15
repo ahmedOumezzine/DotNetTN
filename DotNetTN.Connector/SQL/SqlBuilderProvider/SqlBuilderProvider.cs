@@ -18,10 +18,10 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         #region Properties
         public SqlClient Context { get; set; }
         public CommandType CommandType { get; set; }
-      //  public DeleteBuilder DeleteBuilder { get; set; }
+        public DeleteBuilder DeleteBuilder { get; set; }
         public InsertBuilder InsertBuilder { get; set; }
-      //  public QueryBuilder QueryBuilder { get; set; }
-     //   public UpdateBuilder UpdateBuilder { get; set; }
+     //   public QueryBuilder QueryBuilder { get; set; }
+      public UpdateBuilder UpdateBuilder { get; set; }
         //public SqlQueryBuilder SqlQueryBuilder
         //{
         //    get

@@ -35,6 +35,33 @@ namespace DotNetTN.Connector.SQL.Entities
             return reval;
         }
 
+        protected UpdateableProvider<T> CreateUpdateable<T>(T UpdateObjs) where T : class, new()
+        {
+            var reval = new UpdateableProvider<T>();
+            var sqlBuilder = InstanceFactory.GetSqlbuilder(this.CurrentConfig) ;
+            reval.Context = this.Context;
+            reval.EntityInfo = this.Context.EntityMaintenance.GetEntityInfo<T>();
+            reval.SqlBuilder = sqlBuilder;
+            reval.UpdateObjs = UpdateObjs;
+            sqlBuilder.UpdateBuilder = reval.UpdateBuilder = InstanceFactory.GetUpdateBuilder(this.CurrentConfig);
+            sqlBuilder.UpdateBuilder.Builder = sqlBuilder;
+            sqlBuilder.Context = reval.SqlBuilder.UpdateBuilder.Context = this.Context;
+            reval.Init();
+            return reval;
+        }
+        protected DeleteableProvider<T> CreateDeleteable<T>() where T : class, new()
+        {
+            var reval = new DeleteableProvider<T>();
+            var sqlBuilder = InstanceFactory.GetSqlbuilder(this.CurrentConfig); ;
+            reval.Context = this.Context;
+            reval.SqlBuilder = sqlBuilder;
+            sqlBuilder.DeleteBuilder = reval.DeleteBuilder = InstanceFactory.GetDeleteBuilder(this.CurrentConfig);
+            sqlBuilder.DeleteBuilder.Builder = sqlBuilder;
+            sqlBuilder.Context = reval.SqlBuilder.DeleteBuilder.Context = this.Context;
+            return reval;
+        }
+
+
         protected EntityMaintenance _EntityProvider;
 
 
