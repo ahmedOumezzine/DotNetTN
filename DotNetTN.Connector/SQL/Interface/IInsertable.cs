@@ -15,5 +15,7 @@ namespace DotNetTN.Connector.SQL.Interface
         IInsertable<T> Where(T deleteObj);
         IInsertable<T> UpdateColumns(Func<string, bool> updateColumMethod);
 
+        IInsertable<T> Where(Expression<Func<T, bool>> expression);
+
     }
 }

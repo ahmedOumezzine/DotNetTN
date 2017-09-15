@@ -30,8 +30,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         public int ExecuteCommand()
         {
             PreToSql();
-            string sql = UpdateBuilder.ToSqlString();
-          
+            string sql = UpdateBuilder.ToSqlString();         
           //  Check.Exception(UpdateBuilder.WhereValues.IsNullOrEmpty() && GetPrimaryKeys().IsNullOrEmpty(), "You cannot have no primary key and no conditions");
             return this.Ado.ExecuteCommand(sql, UpdateBuilder.Parameters == null ? null : UpdateBuilder.Parameters.ToArray());
         }
@@ -165,6 +164,27 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return this;
         }
 
-     
+  
+
+        public IInsertable<T> Where(Expression<Func<T, bool>> expression)
+        {
+
+            var expResult = UpdateBuilder.GetExpressionValue(expression, ResolveExpressType.WhereSingle);
+            UpdateBuilder.WhereValues.Add(expResult.GetResultString());
+            return this;
+        }
+        //public string GetResultString()
+        //{
+        //    if (this._Result == null) return null;
+        //    if (this._ResolveExpressType.IsIn(ResolveExpressType.SelectMultiple, ResolveExpressType.SelectSingle))
+        //    {
+        //        return this.Result.ToString().TrimEnd(',');
+        //    }
+        //    if (IsUpper)
+        //        return this.Result.ToString().ToUpper();
+        //    else
+        //        return this.Result.ToString();
+        //}
+
     }
 }

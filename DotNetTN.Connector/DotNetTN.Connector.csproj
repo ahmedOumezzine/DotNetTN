@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GenericRepository, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GenericRepository.0.2.1.0\lib\net40\GenericRepository.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
@@ -45,19 +48,47 @@
   <ItemGroup>
     <Compile Include="MySql\Builder\MySqlBuilder.cs" />
     <Compile Include="MySql\DeleteBuilder\MySqlDeleteBuilder.cs" />
+    <Compile Include="MySql\ExpressionContext\MySqlExpressionContext.cs" />
     <Compile Include="MySql\InsertBuilder\MySqlInsertBuilder.cs" />
     <Compile Include="MySql\MySqlProvider.cs" />
     <Compile Include="MySql\UpdateBuilder\MySqlUpdateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQL\Common\DateType.cs" />
+    <Compile Include="SQL\Common\OrderByType.cs" />
+    <Compile Include="SQL\Entities\JoinQueryInfo.cs" />
+    <Compile Include="SQL\Entities\JoinType.cs" />
+    <Compile Include="SQL\ExpressionsToSql\DefaultDbMethod.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ExpressionConst.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ExpressionContext.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ExpressionParameter.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ExpressionTool.cs" />
+    <Compile Include="SQL\ExpressionsToSql\IDbMethods.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\BaseResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\BinaryExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\BlockExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\ConditionalExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\ConstantExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\LambdaExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\MemberExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\MemberInitExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\MemberNoExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\MethodCallExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\NewArrayExpessionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\NewExpressionResolve.cs" />
+    <Compile Include="SQL\ExpressionsToSql\ResolveItems\TypeParameterExpressionReolve.cs" />
     <Compile Include="SQL\AdoProvider\AdoAccessory.cs" />
     <Compile Include="SQL\AdoProvider\AdoProvider.cs" />
     <Compile Include="SQL\Common\CacheManager.cs" />
+    <Compile Include="SQL\Common\ExpressionResult.cs" />
+    <Compile Include="SQL\Common\ExpressionResultAppendType.cs" />
     <Compile Include="SQL\Common\Extensions.cs" />
     <Compile Include="SQL\Common\InstanceFactory.cs" />
+    <Compile Include="SQL\Common\MethodCallExpressionModel.cs" />
     <Compile Include="SQL\Common\Parameter.cs" />
     <Compile Include="SQL\Common\RewritableMethods.cs" />
     <Compile Include="SQL\Common\UtilConstants.cs" />
     <Compile Include="SQL\Common\UtilConvert.cs" />
+    <Compile Include="SQL\Common\VariableSubstitutionVisitor.cs" />
     <Compile Include="SQL\Entities\Accessory.cs" />
     <Compile Include="SQL\Entities\Config.cs" />
     <Compile Include="SQL\Entities\CSharpDataType.cs" />
@@ -74,7 +105,9 @@
     <Compile Include="SQL\Interface\IAdo.cs" />
     <Compile Include="SQL\Interface\ICacheManager.cs" />
     <Compile Include="SQL\Interface\IDbBind.cs" />
+    <Compile Include="SQL\Interface\IDbMethods.cs" />
     <Compile Include="SQL\Interface\IInsertable.cs" />
+    <Compile Include="SQL\Interface\ILambdaExpressions.cs" />
     <Compile Include="SQL\Interface\IRewritableMethods.cs" />
     <Compile Include="SQL\Interface\ISqlBuilder.cs" />
     <Compile Include="SQL\Mapping\MappingAttribute.cs" />
@@ -84,6 +117,7 @@
     <Compile Include="SQL\SqlBuilderProvider\DeleteBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertableProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertBuilder.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\QueryBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\SqlBuilderProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\SqlQueryBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\UpdateableProvider.cs" />

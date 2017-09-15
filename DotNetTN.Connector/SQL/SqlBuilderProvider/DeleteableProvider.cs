@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -131,6 +132,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
           //  Check.Exception(GetPrimaryKeys().IsNullOrEmpty(), "Where(entity) Primary key required");
             Where(new List<T>() { deleteObj });
             return this;
+        }
+
+        public IInsertable<T> Where(Expression<Func<T, bool>> expression)
+        {
+            throw new NotImplementedException();
         }
 
         private List<string> GetIdentityKeys()

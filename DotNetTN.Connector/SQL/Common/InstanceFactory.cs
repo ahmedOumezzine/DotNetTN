@@ -15,7 +15,19 @@ namespace DotNetTN.Connector.SQL.Common
         static Assembly assembly = Assembly.Load(UtilConstants.AssemblyName);
         static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
 
-
+        public static ILambdaExpressions GetLambdaExpressions(Config currentConnectionConfig)
+        {
+            if (currentConnectionConfig.DbType == DbType.SqlServer)
+            {
+              //  return new SqlServerExpressionContext();
+            }
+            else
+            {
+                ILambdaExpressions result = CreateInstance<ILambdaExpressions>(GetClassName(currentConnectionConfig.DbType.ToString(), "ExpressionContext"));
+                return result;
+            }
+            return null;
+        }
         public static UpdateBuilder GetUpdateBuilder(Config currentConnectionConfig)
         {
             UpdateBuilder result = CreateInstance<UpdateBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "UpdateBuilder"));

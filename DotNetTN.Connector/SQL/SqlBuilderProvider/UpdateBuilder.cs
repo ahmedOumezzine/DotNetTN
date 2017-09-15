@@ -21,6 +21,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             this.Parameters = new List<Parameter>();
         }
         public SqlClient Context { get; set; }
+        public ILambdaExpressions LambdaExpressions { get; set; }
         public ISqlBuilder Builder { get; set; }
         public StringBuilder sql { get; set; }
         public List<Parameter> Parameters { get; set; }
@@ -112,7 +113,8 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
         }
 
-         public virtual string ToSqlString()
+      
+        public virtual string ToSqlString()
         {
             if (IsNoUpdateNull)
             {
@@ -192,7 +194,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return batchUpdateSql.ToString();
         }
 
-
         protected virtual string ToSingleSqlString(List<IGrouping<int, DbColumnInfo>> groupList)
         {
             string columnsString = string.Join(",", groupList.First().Where(it => it.IsPrimarykey == false && (it.IsIdentity == false || (IsOffIdentity && it.IsIdentity))).Select(it =>
@@ -229,6 +230,22 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             return string.Format(SqlTemplate, GetTableNameString, columnsString, whereString);
         }
+
+        public virtual ExpressionResult GetExpressionValue(Expression expression, ResolveExpressType resolveType, bool isMapping = true)
+        {
+            ILambdaExpressions resolveExpress = this.LambdaExpressions;
+            this.LambdaExpressions.Clear();
+            if (isMapping)
+            {
+                resolveExpress.MappingColumns = Context.MappingColumns;
+                resolveExpress.MappingTables = Context.MappingTables;
+            }
+            resolveExpress.Resolve(expression, resolveType);
+            this.Parameters.AddRange(resolveExpress.Parameters);
+            var reval = resolveExpress.Result;
+            return reval;
+        }
+
 
         public virtual object FormatValue(object value)
         {

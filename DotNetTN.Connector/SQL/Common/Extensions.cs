@@ -10,6 +10,22 @@ namespace DotNetTN.Connector.SQL.Common
     public static class Extensions
     {
 
+        public static bool IsValuable(this object thisValue)
+        {
+            if (thisValue == null || thisValue == DBNull.Value) return false;
+            return thisValue.ToString() != "";
+        }
+
+        public static bool IsValuable(this IEnumerable<object> thisValue)
+        {
+            if (thisValue == null || thisValue.Count() == 0) return false;
+            return true;
+        }
+        public static bool IsClass(this Type thisValue)
+        {
+            return thisValue.IsEntity();
+        }
+
         public static Type GetTypeInfo(this Type typeInfo)
         {
             return typeInfo;
@@ -130,11 +146,7 @@ namespace DotNetTN.Connector.SQL.Common
             return thisValue.ToString() == "";
         }
 
-        public static bool IsValuable(this object thisValue)
-        {
-            if (thisValue == null || thisValue == DBNull.Value) return false;
-            return thisValue.ToString() != "";
-        }
+     
 
         public static bool IsContainsIn(this string thisValue, params string[] inValues)
         {

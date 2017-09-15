@@ -13,6 +13,10 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class InsertableProvider<T> : IInsertable<T> where T : class, new()
     {
+        public InsertableProvider()
+        {
+        }
+
         public SqlClient Context { get; set; }
         public IAdo Ado { get { return Context.Ado; } }
 
@@ -165,6 +169,16 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         }
 
         public IInsertable<T> UpdateColumns(Func<string, bool> updateColumMethod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInsertable<T> Where(bool isNoUpdateNull, bool IsOffIdentity = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInsertable<T> Where(Expression<Func<T, bool>> expression)
         {
             throw new NotImplementedException();
         }

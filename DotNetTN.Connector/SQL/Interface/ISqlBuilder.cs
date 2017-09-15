@@ -13,6 +13,7 @@ namespace DotNetTN.Connector.SQL.Interface
     {
         SqlClient Context { get; set; }
         CommandType CommandType { get; set; }
+        QueryBuilder QueryBuilder { get; set; }
         String AppendWhereOrAnd(bool isWhere, string sqlString);
         string AppendHaving(string sqlString);
         InsertBuilder InsertBuilder { get; set; }

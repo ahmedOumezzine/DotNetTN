@@ -1,7 +1,10 @@
 ﻿using DotNetTN.Connector.SQL.Common;
+using DotNetTN.Connector.SQL.Entities;
+using DotNetTN.Connector.SQL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,6 +22,31 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         #region Properties
         public SqlClient Context { get; set; }
+        public ISqlBuilder Builder { get; set; }
+
+        public ILambdaExpressions LambdaExpressions { get; set; }
+
+        public virtual ExpressionResult GetExpressionValue(Expression expression, ResolveExpressType resolveType)
+        {
+            ILambdaExpressions resolveExpress = this.LambdaExpressions;
+            this.LambdaExpressions.Clear();
+            resolveExpress.JoinQueryInfos = Builder.QueryBuilder.JoinQueryInfos;
+            resolveExpress.IsSingle = IsSingle();
+            resolveExpress.MappingColumns = Context.MappingColumns;
+            resolveExpress.MappingTables = Context.MappingTables;
+          
+            resolveExpress.Resolve(expression, resolveType);
+            this.Parameters.AddRange(resolveExpress.Parameters);
+            var reval = resolveExpress.Result;
+            return reval;
+        }
+
+        public  bool IsSingle()
+        {
+            var isSingle = Builder.QueryBuilder.JoinQueryInfos.IsNullOrEmpty();
+            return isSingle;
+        }
+
         public string Fields
         {
             get

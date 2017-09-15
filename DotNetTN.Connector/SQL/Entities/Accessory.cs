@@ -45,6 +45,8 @@ namespace DotNetTN.Connector.SQL.Entities
             reval.UpdateObjs = UpdateObjs;
             sqlBuilder.UpdateBuilder = reval.UpdateBuilder = InstanceFactory.GetUpdateBuilder(this.CurrentConfig);
             sqlBuilder.UpdateBuilder.Builder = sqlBuilder;
+            sqlBuilder.UpdateBuilder.LambdaExpressions = InstanceFactory.GetLambdaExpressions(this.CurrentConfig);
+
             sqlBuilder.Context = reval.SqlBuilder.UpdateBuilder.Context = this.Context;
             reval.Init();
             return reval;
