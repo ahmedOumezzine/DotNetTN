@@ -4,6 +4,7 @@ using DotNetTN.Connector.SQL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -190,6 +191,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             return batchUpdateSql.ToString();
         }
+
 
         protected virtual string ToSingleSqlString(List<IGrouping<int, DbColumnInfo>> groupList)
         {

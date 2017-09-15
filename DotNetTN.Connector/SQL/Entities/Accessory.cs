@@ -52,7 +52,7 @@ namespace DotNetTN.Connector.SQL.Entities
         protected DeleteableProvider<T> CreateDeleteable<T>() where T : class, new()
         {
             var reval = new DeleteableProvider<T>();
-            var sqlBuilder = InstanceFactory.GetSqlbuilder(this.CurrentConfig); ;
+            var sqlBuilder = InstanceFactory.GetSqlbuilder(this.CurrentConfig);
             reval.Context = this.Context;
             reval.SqlBuilder = sqlBuilder;
             sqlBuilder.DeleteBuilder = reval.DeleteBuilder = InstanceFactory.GetDeleteBuilder(this.CurrentConfig);

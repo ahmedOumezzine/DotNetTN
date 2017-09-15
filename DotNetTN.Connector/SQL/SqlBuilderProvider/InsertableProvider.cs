@@ -164,6 +164,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             throw new NotImplementedException();
         }
 
+        public IInsertable<T> UpdateColumns(Func<string, bool> updateColumMethod)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

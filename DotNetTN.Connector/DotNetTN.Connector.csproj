@@ -69,6 +69,7 @@
     <Compile Include="SQL\Entities\EntityMaintenance.cs" />
     <Compile Include="SQL\Entities\InitKeyType.cs" />
     <Compile Include="SQL\Entities\List.cs" />
+    <Compile Include="SQL\Entities\ResolveExpressType.cs" />
     <Compile Include="SQL\GlobalProvider.cs" />
     <Compile Include="SQL\Interface\IAdo.cs" />
     <Compile Include="SQL\Interface\ICacheManager.cs" />

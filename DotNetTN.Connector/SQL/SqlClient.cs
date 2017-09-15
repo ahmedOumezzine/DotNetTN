@@ -110,9 +110,9 @@ namespace DotNetTN.Connector.SQL
             return base.CreateUpdateable(UpdateObjs);
         }
 
-        public virtual IInsertable<T> Deleteable<T>(T DeletObj) where T : class, new()
+        public virtual IInsertable<T> Deleteable<T>() where T : class, new()
         {
-            return base.CreateInsertable(DeletObj);
+            return base.CreateDeleteable<T>();
         }
 
     }
