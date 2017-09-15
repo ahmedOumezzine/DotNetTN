@@ -27,7 +27,7 @@ namespace DotNetTN.Connector.MySql.Provider
                         {
                             mySqlConnectionString = mySqlConnectionString.Trim().TrimEnd(';') + ";charset=utf8;";
                         }
-                        base._DbConnection = new SqlConnection(mySqlConnectionString);
+                        base._DbConnection = new MySqlConnection(mySqlConnectionString);
                     }
                     catch (Exception ex)
                     {
