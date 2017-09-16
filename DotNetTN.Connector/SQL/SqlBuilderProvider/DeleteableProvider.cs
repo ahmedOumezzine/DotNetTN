@@ -33,6 +33,37 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return Db.ExecuteCommand(sql, paramters);
         }
 
+        public IInsertable<T> In<PkType>(PkType[] primaryKeyValues)
+        {
+            if (primaryKeyValues == null || primaryKeyValues.Count() == 0)
+            {
+                Where(SqlBuilder.SqlFalse);
+                return this;
+            }
+            string tableName = this.Context.EntityMaintenance.GetTableName<T>();
+            string primaryField = null;
+            primaryField = GetPrimaryKeys().FirstOrDefault();
+            //  Check.ArgumentNullException(primaryField, "Table " + tableName + " with no primarykey");
+            if (primaryKeyValues.Length < 10000)
+            {
+                Where(string.Format(DeleteBuilder.WhereInTemplate, SqlBuilder.GetTranslationColumnName(primaryField), primaryKeyValues.ToJoinSqlInVals()));
+            }
+            else
+            {
+                if (DeleteBuilder.BigDataInValues == null)
+                    DeleteBuilder.BigDataInValues = new List<object>();
+                DeleteBuilder.BigDataInValues.AddRange(primaryKeyValues.Select(it => (object)it));
+                DeleteBuilder.BigDataFiled = primaryField;
+            }
+            return this;
+        }
+
+        public IInsertable<T> In<PkType>(PkType primaryKeyValue)
+        {
+            In(new PkType[] { primaryKeyValue });
+            return this;
+        }
+
         public KeyValuePair<string, List<Parameter>> ToSql()
         {
             DeleteBuilder.EntityInfo = this.Context.EntityMaintenance.GetEntityInfo<T>();

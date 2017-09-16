@@ -44,6 +44,8 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Connector\Base.cs" />
     <Compile Include="Connector\Insert.cs" />
+    <Compile Include="Connector\MysqlTest\DotNetTNBase.cs" />
+    <Compile Include="Connector\MysqlTest\QuerySimple.cs" />
     <Compile Include="Connector\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

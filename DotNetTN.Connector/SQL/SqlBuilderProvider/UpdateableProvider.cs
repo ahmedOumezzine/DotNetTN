@@ -277,5 +277,10 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
             return propInfo;
         }
+
+        public IInsertable<T> In<PkType>(PkType primaryKeyValue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

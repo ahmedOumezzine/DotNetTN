@@ -10,5 +10,7 @@ namespace DotNetTN.Connector.SQL.Interface
         IInsertable<T> Where(T deleteObj);
 
         IInsertable<T> Where(Expression<Func<T, object>> expression);
+
+        IInsertable<T> In<PkType>(PkType primaryKeyValue);
     }
 }

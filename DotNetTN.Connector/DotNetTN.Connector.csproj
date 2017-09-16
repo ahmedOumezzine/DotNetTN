@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DotNetTNConnector.cs" />
     <Compile Include="MySql\Builder\MySqlBuilder.cs" />
     <Compile Include="MySql\DeleteBuilder\MySqlDeleteBuilder.cs" />
     <Compile Include="MySql\ExpressionContext\MySqlExpressionContext.cs" />

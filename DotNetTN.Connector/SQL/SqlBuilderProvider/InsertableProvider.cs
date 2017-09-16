@@ -187,6 +187,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             throw new NotImplementedException();
         }
 
+        public IInsertable<T> In<PkType>(PkType primaryKeyValue)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion Private Methods
     }
 }
