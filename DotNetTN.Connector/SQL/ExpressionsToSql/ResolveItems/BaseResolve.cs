@@ -2,11 +2,10 @@
 using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
+
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class BaseResolve
@@ -21,8 +20,8 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         private BaseResolve()
         {
-
         }
+
         public BaseResolve(ExpressionParameter parameter)
         {
             this.Expression = parameter.CurrentExpression;
@@ -53,7 +52,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             else if (expression is BlockExpression)
             {
-             //   Check.ThrowNotSupportedException("BlockExpression");
+                //   Check.ThrowNotSupportedException("BlockExpression");
             }
             else if (expression is ConditionalExpression)
             {
@@ -63,7 +62,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             {
                 return new MethodCallExpressionResolve(parameter);
             }
-           
             else if (expression is ConstantExpression)
             {
                 return new ConstantExpressionResolve(parameter);
@@ -72,7 +70,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             {
                 return new MemberExpressionResolve(parameter);
             }
-           
             else if (expression is MemberInitExpression)
             {
                 return new MemberInitExpressionResolve(parameter);
@@ -91,14 +88,13 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             else if (expression != null && expression.NodeType.IsIn(ExpressionType.NewArrayBounds))
             {
-              //  Check.ThrowNotSupportedException("ExpressionType.NewArrayBounds");
+                //  Check.ThrowNotSupportedException("ExpressionType.NewArrayBounds");
             }
             return null;
         }
 
         protected void AppendMember(ExpressionParameter parameter, bool? isLeft, object appendValue)
         {
-
             Context.ParameterIndex++;
             if (isLeft == true)
             {
@@ -113,6 +109,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 this.Context.Result.Append(appendValue);
             }
         }
+
         protected void AppendValue(ExpressionParameter parameter, bool? isLeft, object value)
         {
             if (parameter.BaseExpression is BinaryExpression || parameter.BaseExpression == null)
@@ -159,7 +156,8 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         this.Context.Result.Append(appendValue);
                     }
                 }
-                else if ((oppoSiteExpression is UnaryExpression && (oppoSiteExpression as UnaryExpression).Operand is MemberExpression)) {
+                else if ((oppoSiteExpression is UnaryExpression && (oppoSiteExpression as UnaryExpression).Operand is MemberExpression))
+                {
                     string appendValue = Context.SqlParameterKeyWord
                       + ((MemberExpression)(oppoSiteExpression as UnaryExpression).Operand).Member.Name
                       + Context.ParameterIndex;
@@ -211,6 +209,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 }
             }
         }
+
         protected void AppendOpreator(ExpressionParameter parameter, bool? isLeft)
         {
             if (isLeft == true)
@@ -218,6 +217,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 this.Context.Result.Append(" " + ExpressionConst.ExpressionReplace + parameter.BaseParameter.Index);
             }
         }
+
         protected string AppendParameter(object paramterValue)
         {
             string parameterName = this.Context.SqlParameterKeyWord + "constant" + this.Context.ParameterIndex;
@@ -225,6 +225,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             this.Context.Parameters.Add(new Parameter(parameterName, paramterValue));
             return parameterName;
         }
+
         protected void AppendNot(object Value)
         {
             var isAppend = !this.Context.Result.Contains(ExpressionConst.FormatSymbol);
@@ -386,10 +387,8 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 var listProperties = item.Type.GetProperties().Cast<PropertyInfo>().ToList();
                 foreach (var property in listProperties)
                 {
-              
                     if (property.PropertyType.IsClass())
                     {
-
                     }
                     else
                     {
@@ -406,7 +405,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                     }
                 }
             }
-            else if (item is MethodCallExpression|| item is UnaryExpression)
+            else if (item is MethodCallExpression || item is UnaryExpression)
             {
                 this.Expression = item;
                 this.Start();
@@ -414,7 +413,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             else
             {
-               // Check.ThrowNotSupportedException(item.GetType().Name);
+                // Check.ThrowNotSupportedException(item.GetType().Name);
             }
         }
     }

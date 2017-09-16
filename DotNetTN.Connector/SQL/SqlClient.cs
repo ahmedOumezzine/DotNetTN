@@ -1,12 +1,7 @@
 ﻿using DotNetTN.Connector.SQL.Common;
 using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.Interface;
-using DotNetTN.Connector.SQL.SqlBuilderProvider;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL
 {
@@ -16,7 +11,6 @@ namespace DotNetTN.Connector.SQL
 
         public SqlClient(Config config)
         {
-
             if (config == null)
                 throw new Exception("config is null");
 
@@ -27,18 +21,22 @@ namespace DotNetTN.Connector.SQL
                 case DbType.MySql:
                     GlobalProvider.TryMySqlData();
                     break;
+
                 case DbType.SqlServer:
                     // en developed
                     break;
+
                 case DbType.Sqlite:
                     // en developed
                     break;
+
                 case DbType.Oracle:
                 // en developed
                 default:
                     throw new Exception("ConnectionConfig.DbType is null");
             }
         }
+
         protected IRewritableMethods _RewritableMethods;
 
         public virtual IAdo Ado
@@ -56,7 +54,9 @@ namespace DotNetTN.Connector.SQL
                 return _Ado;
             }
         }
+
         #region Util Methods
+
         [Obsolete("Use SqlSugarClient.Utilities")]
         public virtual IRewritableMethods RewritableMethods
         {
@@ -74,15 +74,18 @@ namespace DotNetTN.Connector.SQL
             }
             set { this._RewritableMethods = value; }
         }
-        #endregion
+
+        #endregion Util Methods
 
         #region Entity Methods
+
         [Obsolete("Use SqlSugarClient.EntityMaintenance")]
         public virtual EntityMaintenance EntityProvider
         {
             get { return this.EntityMaintenance; }
             set { this.EntityMaintenance = value; }
         }
+
         public virtual EntityMaintenance EntityMaintenance
         {
             get
@@ -97,8 +100,7 @@ namespace DotNetTN.Connector.SQL
             set { base._EntityProvider = value; }
         }
 
-       
-        #endregion
+        #endregion Entity Methods
 
         public virtual IInsertable<T> Insertable<T>(T insertObj) where T : class, new()
         {
@@ -114,6 +116,5 @@ namespace DotNetTN.Connector.SQL
         {
             return base.CreateDeleteable<T>();
         }
-
     }
 }

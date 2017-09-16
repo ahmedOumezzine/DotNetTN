@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Entities
 {
@@ -17,6 +15,7 @@ namespace DotNetTN.Connector.SQL.Entities
         {
             return GetEntityInfo(typeof(T));
         }
+
         public EntityInfo GetEntityInfo(Type type)
         {
             string cacheKey = "GetEntityInfo" + type.FullName;
@@ -24,7 +23,6 @@ namespace DotNetTN.Connector.SQL.Entities
             (cm, key) =>
             {
                 return cm[cacheKey];
-
             }, (cm, key) =>
             {
                 EntityInfo result = new EntityInfo();
@@ -42,6 +40,7 @@ namespace DotNetTN.Connector.SQL.Entities
                 return result;
             });
         }
+
         public string GetTableName<T>()
         {
             var typeName = typeof(T).Name;
@@ -52,6 +51,7 @@ namespace DotNetTN.Connector.SQL.Entities
                 return mappingInfo == null ? typeName : mappingInfo.DbTableName;
             }
         }
+
         public string GetTableName(Type entityType)
         {
             var typeName = entityType.Name;
@@ -62,6 +62,7 @@ namespace DotNetTN.Connector.SQL.Entities
                 return mappingInfo == null ? typeName : mappingInfo.DbTableName;
             }
         }
+
         public string GetTableName(string entityName)
         {
             var typeName = entityName;
@@ -72,6 +73,7 @@ namespace DotNetTN.Connector.SQL.Entities
                 return mappingInfo == null ? typeName : mappingInfo.DbTableName;
             }
         }
+
         public string GetEntityName(string tableName)
         {
             if (this.Context.MappingTables == null || this.Context.MappingTables.Count == 0) return tableName;
@@ -81,6 +83,7 @@ namespace DotNetTN.Connector.SQL.Entities
                 return mappingInfo == null ? tableName : mappingInfo.EntityName;
             }
         }
+
         public string GetDbColumnName<T>(string propertyName)
         {
             var isAny = this.GetEntityInfo<T>().Columns.Any(it => it.PropertyName.Equals(propertyName, StringComparison.CurrentCultureIgnoreCase));
@@ -93,6 +96,7 @@ namespace DotNetTN.Connector.SQL.Entities
                 return mappingInfo == null ? propertyName : mappingInfo.DbColumnName;
             }
         }
+
         public string GetPropertyName<T>(string dbColumnName)
         {
             var typeName = typeof(T).Name;
@@ -103,12 +107,15 @@ namespace DotNetTN.Connector.SQL.Entities
                 return mappingInfo == null ? dbColumnName : mappingInfo.PropertyName;
             }
         }
+
         public PropertyInfo GetProperty<T>(string dbColumnName)
         {
             var propertyName = GetPropertyName<T>(dbColumnName);
             return typeof(T).GetProperties().First(it => it.Name == propertyName);
         }
+
         #region Primary key
+
         private static void SetColumns(EntityInfo result)
         {
             foreach (var property in result.Type.GetProperties())
@@ -150,7 +157,7 @@ namespace DotNetTN.Connector.SQL.Entities
                 result.Columns.Add(column);
             }
         }
-        #endregion
 
+        #endregion Primary key
     }
 }

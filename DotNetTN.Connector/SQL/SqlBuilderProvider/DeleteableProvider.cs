@@ -4,9 +4,8 @@ using DotNetTN.Connector.SQL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -17,6 +16,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         public ISqlBuilder SqlBuilder { get; set; }
         public DeleteBuilder DeleteBuilder { get; set; }
         public bool IsAs { get; set; }
+
         public EntityInfo EntityInfo
         {
             get
@@ -24,6 +24,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return this.Context.EntityMaintenance.GetEntityInfo<T>();
             }
         }
+
         public int ExecuteCommand()
         {
             DeleteBuilder.EntityInfo = this.Context.EntityMaintenance.GetEntityInfo<T>();
@@ -31,8 +32,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             var paramters = DeleteBuilder.Parameters == null ? null : DeleteBuilder.Parameters.ToArray();
             return Db.ExecuteCommand(sql, paramters);
         }
-     
-    
 
         public KeyValuePair<string, List<Parameter>> ToSql()
         {
@@ -57,7 +56,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             string tableName = this.Context.EntityMaintenance.GetTableName<T>();
             var primaryFields = this.GetPrimaryKeys();
             var isSinglePrimaryKey = primaryFields.Count == 1;
-          //  Check.ArgumentNullException(primaryFields, string.Format("Table {0} with no primarykey", tableName));
+            //  Check.ArgumentNullException(primaryFields, string.Format("Table {0} with no primarykey", tableName));
             if (isSinglePrimaryKey)
             {
                 List<object> primaryKeyValues = new List<object>();
@@ -129,7 +128,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         public IInsertable<T> Where(T deleteObj)
         {
-          //  Check.Exception(GetPrimaryKeys().IsNullOrEmpty(), "Where(entity) Primary key required");
+            //  Check.Exception(GetPrimaryKeys().IsNullOrEmpty(), "Where(entity) Primary key required");
             Where(new List<T>() { deleteObj });
             return this;
         }
@@ -152,14 +151,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         private List<string> GetIdentityKeys()
         {
             return this.EntityInfo.Columns.Where(it => it.IsIdentity).Select(it => it.DbColumnName).ToList();
-
         }
 
         private List<string> GetPrimaryKeys()
         {
             return this.EntityInfo.Columns.Where(it => it.IsPrimarykey).Select(it => it.DbColumnName).ToList();
-
         }
-
     }
 }

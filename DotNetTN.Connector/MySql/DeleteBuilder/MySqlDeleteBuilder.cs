@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotNetTN.Connector.MySql.DeleteBuilder
+﻿namespace DotNetTN.Connector.MySql.DeleteBuilder
 {
-    class MySqlDeleteBuilder: DotNetTN.Connector.SQL.SqlBuilderProvider.DeleteBuilder
+    internal class MySqlDeleteBuilder : DotNetTN.Connector.SQL.SqlBuilderProvider.DeleteBuilder
     {
         public override string SqlTemplate
         {
@@ -15,6 +9,7 @@ namespace DotNetTN.Connector.MySql.DeleteBuilder
                 return "DELETE FROM {0}{1}";
             }
         }
+
         public override string WhereInTemplate
         {
             get

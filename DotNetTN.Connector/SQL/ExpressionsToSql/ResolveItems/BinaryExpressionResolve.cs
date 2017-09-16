@@ -1,9 +1,6 @@
 ﻿using DotNetTN.Connector.SQL.ExpressionsToSql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class BinaryExpressionResolve : BaseResolve
@@ -45,7 +42,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             if (lsbs && parameter.ValueIsNull)
             {
                 base.Context.Result.Replace(ExpressionConst.ExpressionReplace + parameter.Index, isEqual ? "IS" : "IS NOT");
-                base.Context.Result.Replace(ExpressionConst.ExpressionReplace + (parameter.Index+1), isEqual ? "IS" : "IS NOT");
+                base.Context.Result.Replace(ExpressionConst.ExpressionReplace + (parameter.Index + 1), isEqual ? "IS" : "IS NOT");
             }
             else
             {

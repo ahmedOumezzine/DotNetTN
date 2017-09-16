@@ -1,12 +1,6 @@
 ﻿using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -18,22 +12,27 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             switch (parameter.Context.ResolveType)
             {
                 case ResolveExpressType.WhereSingle:
-                   // Check.ThrowNotSupportedException(expression.ToString());
+                    // Check.ThrowNotSupportedException(expression.ToString());
                     break;
+
                 case ResolveExpressType.WhereMultiple:
-                  //  Check.ThrowNotSupportedException(expression.ToString());
+                    //  Check.ThrowNotSupportedException(expression.ToString());
                     break;
+
                 case ResolveExpressType.SelectSingle:
-                //    Check.Exception(expression.Type == UtilConstants.DateType, "ThrowNotSupportedException {0} ",expression.ToString());
+                    //    Check.Exception(expression.Type == UtilConstants.DateType, "ThrowNotSupportedException {0} ",expression.ToString());
                     Select(expression, parameter, true);
                     break;
+
                 case ResolveExpressType.SelectMultiple:
-             //       Check.Exception(expression.Type == UtilConstants.DateType, "ThrowNotSupportedException {0} ", expression.ToString());
+                    //       Check.Exception(expression.Type == UtilConstants.DateType, "ThrowNotSupportedException {0} ", expression.ToString());
                     Select(expression, parameter, false);
                     break;
+
                 case ResolveExpressType.FieldSingle:
-             //       Check.ThrowNotSupportedException(expression.ToString());
+                    //       Check.ThrowNotSupportedException(expression.ToString());
                     break;
+
                 case ResolveExpressType.FieldMultiple:
                 case ResolveExpressType.ArrayMultiple:
                 case ResolveExpressType.ArraySingle:
@@ -43,6 +42,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         base.Start();
                     }
                     break;
+
                 default:
                     break;
             }
@@ -63,4 +63,3 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         }
     }
 }
-

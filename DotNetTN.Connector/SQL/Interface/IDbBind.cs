@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Interface
 {
@@ -18,11 +15,17 @@ namespace DotNetTN.Connector.SQL.Interface
         List<string> DoubleThrow { get; }
         List<string> DateThrow { get; }
         List<string> ShortThrow { get; }
+
         string GetPropertyTypeName(string dbTypeName);
+
         string GetConvertString(string dbTypeName);
+
         string GetDbTypeName(string csharpTypeName);
+
         string GetCsharpTypeName(string dbTypeName);
+
         List<KeyValuePair<string, CSharpDataType>> MappingTypes { get; }
+
         List<T> DataReaderToList<T>(Type type, IDataReader reader, string fields);
     }
 }

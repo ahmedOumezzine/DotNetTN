@@ -1,19 +1,14 @@
 ﻿using DotNetTN.Connector.SQL;
 using DotNetTN.Connector.SQL.Common;
-using DotNetTN.Connector.SQL.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DotNetTN.Connector.SQL.Entities;
-using System.Linq.Expressions;
+using DotNetTN.Connector.SQL.Interface;
 
 namespace DotNetTN.Connector.MySql.ExpressionContext
 {
     public class MySqlExpressionContext : DotNetTN.Connector.SQL.ExpressionsToSql.ExpressionContext, ILambdaExpressions
     {
         private IDbMethods _DbMehtods { get; set; }
+
         public IDbMethods DbMehtods
         {
             get
@@ -29,20 +24,21 @@ namespace DotNetTN.Connector.MySql.ExpressionContext
                 _DbMehtods = value;
             }
         }
+
         public SqlClient Context { get; set; }
+
         public MySqlExpressionContext()
         {
             this.DbMehtods = new MySqlMethod();
         }
-        public  string SqlTranslationLeft { get { return "`"; } }
-        public  string SqlTranslationRight { get { return "`"; } }
+
+        public string SqlTranslationLeft { get { return "`"; } }
+        public string SqlTranslationRight { get { return "`"; } }
 
         public MappingColumnList MappingColumns { get; set; }
         public MappingTableList MappingTables { get; set; }
-
-        
-      
     }
+
     public class MySqlMethod : DefaultDbMethod, IDbMethods
     {
         public override string DateValue(MethodCallExpressionModel model)
@@ -150,6 +146,7 @@ namespace DotNetTN.Connector.MySql.ExpressionContext
             var parameter = model.Args[0];
             return string.Format(" LENGTH({0})", parameter.MemberName);
         }
+
         public override string MergeString(params string[] strings)
         {
             return " concat(" + string.Join(",", strings).Replace("+", "") + ") ";

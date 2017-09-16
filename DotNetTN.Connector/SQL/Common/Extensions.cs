@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Common
 {
     public static class Extensions
     {
-
         public static bool IsValuable(this object thisValue)
         {
             if (thisValue == null || thisValue == DBNull.Value) return false;
@@ -21,6 +18,7 @@ namespace DotNetTN.Connector.SQL.Common
             if (thisValue == null || thisValue.Count() == 0) return false;
             return true;
         }
+
         public static bool IsClass(this Type thisValue)
         {
             return thisValue.IsEntity();
@@ -30,6 +28,7 @@ namespace DotNetTN.Connector.SQL.Common
         {
             return typeInfo;
         }
+
         internal static T IsNullReturnNew<T>(T returnObj) where T : new()
         {
             if (returnObj.IsNullOrEmpty())
@@ -38,6 +37,7 @@ namespace DotNetTN.Connector.SQL.Common
             }
             return returnObj;
         }
+
         public static bool IsIn<T>(this T thisValue, params T[] values)
         {
             return values.Contains(thisValue);
@@ -48,23 +48,24 @@ namespace DotNetTN.Connector.SQL.Common
             var reval = type.GetTypeInfo().GetGenericArguments();
             return reval;
         }
+
         public static bool IsGenericType(this Type type)
         {
             var reval = type.GetTypeInfo().IsGenericType;
             return reval;
         }
+
         public static PropertyInfo[] GetProperties(this Type type)
         {
             var reval = type.GetTypeInfo().GetProperties();
             return reval;
         }
+
         public static PropertyInfo GetProperty(this Type type, string name)
         {
             var reval = type.GetTypeInfo().GetProperty(name);
             return reval;
         }
-
-      
 
         public static FieldInfo GetField(this Type type, string name)
         {
@@ -83,11 +84,13 @@ namespace DotNetTN.Connector.SQL.Common
             var reval = type.GetTypeInfo().GetMethod(name);
             return reval;
         }
+
         public static MethodInfo GetMethod(this Type type, string name, Type[] types)
         {
             var reval = type.GetTypeInfo().GetMethod(name, types);
             return reval;
         }
+
         public static ConstructorInfo GetConstructor(this Type type, Type[] types)
         {
             var reval = type.GetTypeInfo().GetConstructor(types);
@@ -146,18 +149,16 @@ namespace DotNetTN.Connector.SQL.Common
             return thisValue.ToString() == "";
         }
 
-     
-
         public static bool IsContainsIn(this string thisValue, params string[] inValues)
         {
             return inValues.Any(it => thisValue.Contains(it));
         }
 
-
         internal static string GetPackTable(string sql, string shortName)
         {
             return string.Format(" ({0}) {1} ", sql, shortName);
         }
+
         internal static void RepairReplicationParameters(ref string appendSql, Parameter[] parameters, int addIndex)
         {
             if (appendSql.IsValuable() && parameters.IsValuable())
@@ -178,6 +179,7 @@ namespace DotNetTN.Connector.SQL.Common
             Type type = Nullable.GetUnderlyingType(oldType);
             return type == null ? oldType : type;
         }
+
         internal static Type GetUnderType(PropertyInfo propertyInfo)
         {
             Type unType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);

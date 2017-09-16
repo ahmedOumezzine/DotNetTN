@@ -7,34 +7,37 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
-    public abstract class QueryBuilder 
+    public abstract class QueryBuilder
     {
-
         public QueryBuilder()
         {
             this.Parameters = new List<Parameter>();
         }
 
         #region Private Fileds
+
         protected List<JoinQueryInfo> _JoinQueryInfos;
         protected Dictionary<string, string> _EasyJoinInfos;
         private List<string> _WhereInfos;
         private string _HavingInfos;
         protected string _TableNameString;
-        #endregion
+
+        #endregion Private Fileds
 
         #region Service object
+
         public StringBuilder sql { get; set; }
         public SqlClient Context { get; set; }
         public ILambdaExpressions LambdaExpressions { get; set; }
         public ISqlBuilder Builder { get; set; }
-        #endregion
+
+        #endregion Service object
 
         #region Splicing basic
+
         public bool IsCount { get; set; }
         public int? Skip { get; set; }
         public int ExternalPageIndex { get; set; }
@@ -52,6 +55,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         public int JoinIndex { get; set; }
         public bool IsDisabledGobalFilter { get; set; }
         public virtual List<Parameter> Parameters { get; set; }
+
         public Dictionary<string, string> EasyJoinInfos
         {
             get
@@ -61,6 +65,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             set { _EasyJoinInfos = value; }
         }
+
         public virtual List<JoinQueryInfo> JoinQueryInfos
         {
             get
@@ -70,7 +75,9 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             set { _JoinQueryInfos = value; }
         }
+
         public virtual string TableShortName { get; set; }
+
         public virtual List<string> WhereInfos
         {
             get
@@ -80,6 +87,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             set { _WhereInfos = value; }
         }
+
         public virtual string HavingInfos
         {
             get
@@ -91,9 +99,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 _HavingInfos = value;
             }
         }
-        #endregion
+
+        #endregion Splicing basic
 
         #region Lambada Type
+
         public ResolveExpressType SelectType
         {
             get
@@ -101,6 +111,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return this.IsSingle() ? ResolveExpressType.SelectSingle : ResolveExpressType.SelectMultiple;
             }
         }
+
         public ResolveExpressType WheretType
         {
             get
@@ -108,9 +119,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return this.IsSingle() ? ResolveExpressType.WhereSingle : ResolveExpressType.WhereMultiple;
             }
         }
-        #endregion
+
+        #endregion Lambada Type
 
         #region Sql Template
+
         public virtual string SqlTemplate
         {
             get
@@ -118,6 +131,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "SELECT {0} FROM {1}{2}{3}{4} ";
             }
         }
+
         public virtual string JoinTemplate
         {
             get
@@ -125,6 +139,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "{0}JOIN {1}{2}ON {3} ";
             }
         }
+
         public virtual string PageTempalte
         {
             get
@@ -132,6 +147,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return @"SELECT * FROM ({0}) T WHERE RowIndex BETWEEN {1} AND {2}";
             }
         }
+
         public virtual string ExternalPageTempalte
         {
             get
@@ -139,6 +155,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return @"SELECT * FROM ({0}) T WHERE RowIndex2 BETWEEN {1} AND {2}";
             }
         }
+
         public virtual string DefaultOrderByTemplate
         {
             get
@@ -146,6 +163,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "ORDER BY " + this.Builder.SqlDateNow + " ";
             }
         }
+
         public virtual string OrderByTemplate
         {
             get
@@ -153,6 +171,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "ORDER BY ";
             }
         }
+
         public virtual string GroupByTemplate
         {
             get
@@ -160,6 +179,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "GROUP BY ";
             }
         }
+
         public virtual string PartitionByTemplate
         {
             get
@@ -167,6 +187,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "PARTITION BY ";
             }
         }
+
         public virtual string MaxTemplate
         {
             get
@@ -174,6 +195,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "MAX({0})";
             }
         }
+
         public virtual string MinTemplate
         {
             get
@@ -181,6 +203,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "MIN({0})";
             }
         }
+
         public virtual string SumTemplate
         {
             get
@@ -188,6 +211,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "SUM({0})";
             }
         }
+
         public virtual string AvgTemplate
         {
             get
@@ -195,6 +219,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "AVG({0})";
             }
         }
+
         public virtual string InTemplate
         {
             get
@@ -202,14 +227,17 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "{0} IN ({1}) ";
             }
         }
-        #endregion
+
+        #endregion Sql Template
 
         #region Common Methods
+
         public virtual bool IsSingle()
         {
             var isSingle = Builder.QueryBuilder.JoinQueryInfos.IsNullOrEmpty() && !EasyJoinInfos.Any();
             return isSingle;
         }
+
         public virtual ExpressionResult GetExpressionValue(Expression expression, ResolveExpressType resolveType)
         {
             ILambdaExpressions resolveExpress = this.LambdaExpressions;
@@ -223,12 +251,13 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             var reval = resolveExpress.Result;
             return reval;
         }
+
         public virtual string ToSqlString()
         {
             string oldOrderBy = this.OrderByValue;
             string externalOrderBy = oldOrderBy;
             var isIgnoreOrderBy = this.IsCount && this.PartitionByValue.IsNullOrEmpty();
-          
+
             sql = new StringBuilder();
             if (this.OrderByValue == null && (Skip != null || Take != null)) this.OrderByValue = " ORDER BY GetDate() ";
             if (this.PartitionByValue.IsValuable())
@@ -257,7 +286,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return result;
         }
 
-   
         public virtual string GetExternalOrderBy(string externalOrderBy)
         {
             return Regex.Replace(externalOrderBy, @"\[\w+\]\.", "");
@@ -265,7 +293,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         public virtual string ToCountSql(string sql)
         {
-
             return string.Format(" SELECT COUNT(1) FROM ({0}) CountTable ", sql);
         }
 
@@ -305,6 +332,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 joinInfo.ShortName + UtilConstants.Space + TableWithString,
                 joinInfo.JoinWhere);
         }
+
         public virtual void Clear()
         {
             this.Skip = 0;
@@ -317,13 +345,16 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             this.WhereInfos = null;
             this.JoinQueryInfos = null;
         }
+
         public virtual bool IsComplexModel(string sql)
         {
             return Regex.IsMatch(sql, @"AS \[\w+\.\w+\]");
         }
-        #endregion
+
+        #endregion Common Methods
 
         #region Get SQL Partial
+
         public virtual string GetSelectValue
         {
             get
@@ -344,6 +375,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return reval;
             }
         }
+
         public virtual string GetSelectValueByExpression()
         {
             var expression = this.SelectValue as Expression;
@@ -351,6 +383,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             this.SelectCacheKey = reval;
             return reval;
         }
+
         public virtual string GetSelectValueByString()
         {
             string reval;
@@ -371,6 +404,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
             return reval;
         }
+
         public virtual string GetWhereValueString
         {
             get
@@ -382,6 +416,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 }
             }
         }
+
         public virtual string GetJoinValueString
         {
             get
@@ -393,6 +428,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 }
             }
         }
+
         public virtual string GetTableNameString
         {
             get
@@ -413,7 +449,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 }
                 if (this.EasyJoinInfos.IsValuable())
                 {
-
                     if (this.TableWithString.IsValuable())
                     {
                         result += "," + string.Join(",", this.EasyJoinInfos.Select(it => string.Format("{0} {1} {2} ", GetTableName(it.Value), it.Key, TableWithString)));
@@ -426,6 +461,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return result;
             }
         }
+
         public virtual string GetOrderByString
         {
             get
@@ -438,6 +474,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 }
             }
         }
+
         public virtual string GetGroupByString
         {
             get
@@ -450,7 +487,8 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return this.GroupByValue;
             }
         }
-        #endregion
+
+        #endregion Get SQL Partial
 
         private string GetTableName(string entityName)
         {

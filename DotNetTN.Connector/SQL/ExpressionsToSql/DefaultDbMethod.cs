@@ -2,9 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace DotNetTN.Connector.SQL.ExpressionsToSql
 {
     public partial class DefaultDbMethod : IDbMethods
@@ -35,7 +33,6 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
             return string.Format("( {0}>0 AND {0} IS NOT NULL )", parameter.MemberName);
         }
 
-
         public virtual string ToUpper(MethodCallExpressionModel model)
         {
             var parameter = model.Args[0];
@@ -60,6 +57,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
             var parameter2 = model.Args[1];
             return string.Format(" ({0} like '%'+{1}+'%') ", parameter.MemberName, parameter2.MemberName);
         }
+
         public virtual string ContainsArray(MethodCallExpressionModel model)
         {
             var inValueIEnumerable = (IEnumerable)model.Args[0].MemberValue;
@@ -210,6 +208,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
             var parameter = model.Args[0];
             return string.Format(" CAST({0} AS MONEY)", parameter.MemberName);
         }
+
         public virtual string Substring(MethodCallExpressionModel model)
         {
             var parameter = model.Args[0];

@@ -3,17 +3,13 @@ using DotNetTN.Connector.SQL.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace DotNetTN.Connector.SQL.AdoProvider
 {
     public partial class AdoAccessory
     {
-
         protected IDbBind _DbBind;
 
         protected IDbConnection _DbConnection;
@@ -32,6 +28,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             }
             return result.ToArray();
         }
+
         protected void ProperyToParameter(object parameters, PropertyInfo[] propertyInfo, string sqlParameterKeyWord, List<Parameter> listParams, Type entityType)
         {
             PropertyInfo[] properties = null;
@@ -60,6 +57,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 }
             }
         }
+
         protected void DictionaryToParameters(object parameters, string sqlParameterKeyWord, List<Parameter> listParams, Type entityType)
         {
             if (entityType == UtilConstants.DicArraySO)

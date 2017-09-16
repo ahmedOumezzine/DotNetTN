@@ -1,13 +1,10 @@
 ﻿using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
-    public class ConditionalExpressionResolve:BaseResolve
+    public class ConditionalExpressionResolve : BaseResolve
     {
         public ConditionalExpressionResolve(ExpressionParameter parameter) : base(parameter)
         {
@@ -27,7 +24,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 case ResolveExpressType.ArrayMultiple:
                 case ResolveExpressType.Update:
                 default:
-                  //  Check.Exception(true, "Does not support it.xx==value ? true:false , Use SqlFunc.IIF (it.xx==value,true,false)");
+                    //  Check.Exception(true, "Does not support it.xx==value ? true:false , Use SqlFunc.IIF (it.xx==value,true,false)");
                     break;
             }
         }

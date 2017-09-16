@@ -1,16 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Tests.Connector
 {
     [TestClass]
     public class Insert : Base
     {
-
         [TestMethod]
         public void add()
         {
@@ -19,17 +14,16 @@ namespace DotNetTN.Tests.Connector
 
             //Insert reutrn Insert Count
             var t2 = db.Insertable(insertObj).ExecuteCommand();
-
         }
+
         [TestMethod]
         public void update()
         {
             var db = GetInstance();
-                        var updateObj = new Student() { Id = 4, Name = "demo", SchoolId = 11, CreateTime =DateTime.Now };
+            var updateObj = new Student() { Id = 4, Name = "demo", SchoolId = 11, CreateTime = DateTime.Now };
 
             //Insert reutrn Insert Count
             var t3_1 = db.Updateable(updateObj).ExecuteCommand();
-
         }
 
         [TestMethod]
@@ -38,7 +32,6 @@ namespace DotNetTN.Tests.Connector
             var db = GetInstance();
 
             var t1 = db.Deleteable<Student>().Where(new Student() { Id = 1 }).ExecuteCommand();
-
         }
     }
 }

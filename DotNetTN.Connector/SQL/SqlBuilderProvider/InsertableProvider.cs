@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -25,7 +23,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         public bool IsMappingTable => this.Context.MappingTables != null && this.Context.MappingTables.Any();
         public bool IsMappingColumns { get { return this.Context.MappingColumns != null && this.Context.MappingColumns.Any(); } }
-       
+
         public EntityInfo EntityInfo { get; set; }
         public List<MappingColumn> MappingColumnList { get; set; }
         private bool IsOffIdentity { get; set; }
@@ -35,41 +33,41 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         public bool IsAs { get; set; }
 
         #region Core
+
         public int ExecuteCommand()
         {
             InsertBuilder.IsReturnIdentity = false;
             PreToSql();
             string sql = InsertBuilder.ToSqlString();
-           
+
             return Ado.ExecuteCommand(sql, InsertBuilder.Parameters == null ? null : InsertBuilder.Parameters.ToArray());
         }
 
         internal void Init()
         {
             InsertBuilder.EntityInfo = this.EntityInfo;
-         //   Check.Exception(InsertObjs == null || InsertObjs.Count() == 0, "InsertObjs is null");
+            //   Check.Exception(InsertObjs == null || InsertObjs.Count() == 0, "InsertObjs is null");
             int i = 0;
-         
-                List<DbColumnInfo> insertItem = new List<DbColumnInfo>();
-                foreach (var column in EntityInfo.Columns)
+
+            List<DbColumnInfo> insertItem = new List<DbColumnInfo>();
+            foreach (var column in EntityInfo.Columns)
+            {
+                var columnInfo = new DbColumnInfo()
                 {
-                    var columnInfo = new DbColumnInfo()
-                    {
-                        Value = column.PropertyInfo.GetValue(InsertObjs, null),
-                        DbColumnName = GetDbColumnName(column.PropertyName),
-                        PropertyName = column.PropertyName,
-                        PropertyType = Extensions.GetUnderType(column.PropertyInfo),
-                        TableId = i
-                    };
-                    if (columnInfo.PropertyType.IsEnum())
-                    {
-                        columnInfo.Value = Convert.ToInt64(columnInfo.Value);
-                    }
-                    insertItem.Add(columnInfo);
+                    Value = column.PropertyInfo.GetValue(InsertObjs, null),
+                    DbColumnName = GetDbColumnName(column.PropertyName),
+                    PropertyName = column.PropertyName,
+                    PropertyType = Extensions.GetUnderType(column.PropertyInfo),
+                    TableId = i
+                };
+                if (columnInfo.PropertyType.IsEnum())
+                {
+                    columnInfo.Value = Convert.ToInt64(columnInfo.Value);
                 }
-                this.InsertBuilder.DbColumnInfoList.AddRange(insertItem);
-                ++i;
-            
+                insertItem.Add(columnInfo);
+            }
+            this.InsertBuilder.DbColumnInfoList.AddRange(insertItem);
+            ++i;
         }
 
         public int ExecuteReturnIdentity()
@@ -79,6 +77,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             string sql = InsertBuilder.ToSqlString();
             return Ado.GetInt(sql, InsertBuilder.Parameters == null ? null : InsertBuilder.Parameters.ToArray());
         }
+
         public long ExecuteReturnBigIdentity()
         {
             InsertBuilder.IsReturnIdentity = true;
@@ -86,15 +85,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             string sql = InsertBuilder.ToSqlString();
             return Convert.ToInt64(Ado.GetScalar(sql, InsertBuilder.Parameters == null ? null : InsertBuilder.Parameters.ToArray()));
         }
-        
 
-        #endregion
+        #endregion Core
 
         #region Setting
-       
 
-
-        
         public IInsertable<T> With(string lockString)
         {
             if (this.Context.Config.DbType == DbType.SqlServer)
@@ -102,13 +97,14 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return this;
         }
 
-     
-        #endregion
+        #endregion Setting
 
         #region Private Methods
+
         private void PreToSql()
         {
             #region Identities
+
             if (!IsOffIdentity)
             {
                 List<string> identities = GetIdentityKeys();
@@ -120,21 +116,21 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                     }).ToList();
                 }
             }
-            #endregion
 
-      
-                foreach (var item in this.InsertBuilder.DbColumnInfoList)
+            #endregion Identities
+
+            foreach (var item in this.InsertBuilder.DbColumnInfoList)
+            {
+                if (this.InsertBuilder.Parameters == null) this.InsertBuilder.Parameters = new List<Parameter>();
+                var paramters = new Parameter(this.SqlBuilder.SqlParameterKeyWord + item.DbColumnName, item.Value, item.PropertyType);
+                if (InsertBuilder.IsNoInsertNull && paramters.Value == null)
                 {
-                    if (this.InsertBuilder.Parameters == null) this.InsertBuilder.Parameters = new List<Parameter>();
-                    var paramters = new Parameter(this.SqlBuilder.SqlParameterKeyWord + item.DbColumnName, item.Value, item.PropertyType);
-                    if (InsertBuilder.IsNoInsertNull && paramters.Value == null)
-                    {
-                        continue;
-                    }
-                    this.InsertBuilder.Parameters.Add(paramters);
+                    continue;
                 }
-            
+                this.InsertBuilder.Parameters.Add(paramters);
+            }
         }
+
         private string GetDbColumnName(string entityName)
         {
             if (!IsMappingColumns)
@@ -156,11 +152,9 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
         }
 
-
         private List<string> GetIdentityKeys()
         {
-                return this.EntityInfo.Columns.Where(it => it.IsIdentity).Select(it => it.DbColumnName).ToList();
-            
+            return this.EntityInfo.Columns.Where(it => it.IsIdentity).Select(it => it.DbColumnName).ToList();
         }
 
         public IInsertable<T> Where(T deleteObj)
@@ -193,6 +187,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion Private Methods
     }
 }

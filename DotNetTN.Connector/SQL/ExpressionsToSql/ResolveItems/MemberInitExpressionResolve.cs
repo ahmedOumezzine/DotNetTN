@@ -2,12 +2,8 @@
 using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class MemberInitExpressionResolve : BaseResolve
@@ -19,21 +15,28 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             {
                 case ResolveExpressType.WhereSingle:
                     break;
+
                 case ResolveExpressType.WhereMultiple:
                     break;
+
                 case ResolveExpressType.SelectSingle:
                     Select(expression, parameter, true);
                     break;
+
                 case ResolveExpressType.SelectMultiple:
                     Select(expression, parameter, false);
                     break;
+
                 case ResolveExpressType.FieldSingle:
                     break;
+
                 case ResolveExpressType.FieldMultiple:
                     break;
+
                 case ResolveExpressType.Update:
                     Update(expression, parameter);
                     break;
+
                 default:
                     break;
             }
@@ -52,7 +55,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 MemberAssignment memberAssignment = (MemberAssignment)binding;
                 var memberName = memberAssignment.Member.Name;
                 var item = memberAssignment.Expression;
-          
+
                 if (item is MethodCallExpression)
                 {
                     base.Expression = item;
@@ -75,7 +78,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 }
                 else if (item is BinaryExpression)
                 {
-                    var result=GetNewExpressionValue(item);
+                    var result = GetNewExpressionValue(item);
                     this.Context.Result.Append(base.Context.GetEqString(memberName, result));
                 }
             }

@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Mapping
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class Table : Attribute
     {
-        private Table() { }
+        private Table()
+        {
+        }
+
         public string TableName { get; set; }
+
         public Table(string tableName)
         {
             this.TableName = tableName;
@@ -21,6 +21,7 @@ namespace DotNetTN.Connector.SQL.Mapping
     public class Column : Attribute
     {
         private string _ColumnName;
+
         public string ColumnName
         {
             get { return _ColumnName; }
@@ -28,6 +29,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private bool _IsIgnore;
+
         public bool IsIgnore
         {
             get { return _IsIgnore; }
@@ -35,6 +37,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private bool _IsPrimaryKey;
+
         public bool IsPrimaryKey
         {
             get { return _IsPrimaryKey; }
@@ -42,6 +45,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private bool _IsIdentity;
+
         public bool IsIdentity
         {
             get { return _IsIdentity; }
@@ -49,6 +53,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private string _MappingKeys;
+
         public string MappingKeys
         {
             get { return _MappingKeys; }
@@ -56,6 +61,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private string _ColumnDescription;
+
         public string ColumnDescription
         {
             get { return _ColumnDescription; }
@@ -63,6 +69,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private int _Length;
+
         public int Length
         {
             get { return _Length; }
@@ -70,6 +77,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private bool _IsNullable;
+
         public bool IsNullable
         {
             get { return _IsNullable; }
@@ -77,6 +85,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private string _OldColumnName;
+
         public string OldColumnName
         {
             get { return _OldColumnName; }
@@ -84,6 +93,7 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private string _ColumnDataType;
+
         public string ColumnDataType
         {
             get { return _ColumnDataType; }
@@ -91,11 +101,11 @@ namespace DotNetTN.Connector.SQL.Mapping
         }
 
         private int _DecimalDigits;
+
         public int DecimalDigits
         {
             get { return _DecimalDigits; }
             set { _DecimalDigits = value; }
         }
     }
-
 }

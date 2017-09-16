@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotNetTN.Connector.SQL.Entities
+﻿namespace DotNetTN.Connector.SQL.Entities
 {
     public enum ResolveExpressType
     {
@@ -19,6 +13,5 @@ namespace DotNetTN.Connector.SQL.Entities
         ArraySingle = 9,
         ArrayMultiple = 10,
         Update = 11
-
     }
 }

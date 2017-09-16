@@ -1,19 +1,18 @@
 ﻿using DotNetTN.Connector.SQL.AdoProvider;
+using DotNetTN.Connector.SQL.Common;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DotNetTN.Connector.SQL.Common;
-using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
 
 namespace DotNetTN.Connector.MySql.Provider
 {
     public class MySqlProvider : AdoProvider
     {
-        public MySqlProvider() { }
+        public MySqlProvider()
+        {
+        }
+
         public override IDbConnection Connection
         {
             get
@@ -31,7 +30,7 @@ namespace DotNetTN.Connector.MySql.Provider
                     }
                     catch (Exception ex)
                     {
-                       // Check.Exception(true, ErrorMessage.ConnnectionOpen, ex.Message);
+                        // Check.Exception(true, ErrorMessage.ConnnectionOpen, ex.Message);
                     }
                 }
                 return base._DbConnection;
@@ -46,6 +45,7 @@ namespace DotNetTN.Connector.MySql.Provider
         {
             base.BeginTran();
         }
+
         /// <summary>
         /// Only SqlServer
         /// </summary>
@@ -55,10 +55,12 @@ namespace DotNetTN.Connector.MySql.Provider
         {
             base.BeginTran(iso);
         }
+
         public override IDataAdapter GetAdapter()
         {
             return new MySqlDataAdapter();
         }
+
         public override IDbCommand GetCommand(string sql, Parameter[] parameters)
         {
             MySqlCommand sqlCommand = new MySqlCommand(sql, (MySqlConnection)this.Connection);
@@ -77,12 +79,11 @@ namespace DotNetTN.Connector.MySql.Provider
             return sqlCommand;
         }
 
- 
-
         public override void SetCommandToAdapter(IDataAdapter dataAdapter, IDbCommand command)
         {
             ((MySqlDataAdapter)dataAdapter).SelectCommand = (MySqlCommand)command;
         }
+
         /// <summary>
         /// if mysql return MySqlParameter[] pars
         /// if sqlerver return SqlParameter[] pars ...
@@ -114,7 +115,5 @@ namespace DotNetTN.Connector.MySql.Provider
             }
             return result;
         }
-
-
     }
 }

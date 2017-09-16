@@ -1,10 +1,5 @@
 ﻿using DotNetTN.Connector.SQL.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.ExpressionsToSql
 {
@@ -23,14 +18,17 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
         public bool ValueIsNull { get; set; }
         public object CommonTempData { get; set; }
         public ExpressionResultAppendType AppendType { get; set; }
+
         public void IsAppendResult()
         {
             this.AppendType = ExpressionResultAppendType.AppendResult;
         }
+
         public void IsAppendTempDate()
         {
             this.AppendType = ExpressionResultAppendType.AppendTempDate;
         }
+
         public Expression OppsiteExpression
         {
             get

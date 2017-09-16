@@ -1,11 +1,4 @@
-﻿using DotNetTN.Connector.SQL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DotNetTN.Connector.MySql.UpdateBuilder
+﻿namespace DotNetTN.Connector.MySql.UpdateBuilder
 {
     public class MySqlUpdateBuilder : DotNetTN.Connector.SQL.SqlBuilderProvider.UpdateBuilder
     {
@@ -16,6 +9,7 @@ namespace DotNetTN.Connector.MySql.UpdateBuilder
                 return @"UPDATE  {1} S {2}   INNER JOIN ${{0}}  SET {0} ";
             }
         }
+
         public override string SqlTemplateJoin
         {
             get
@@ -27,5 +21,5 @@ namespace DotNetTN.Connector.MySql.UpdateBuilder
                  ";
             }
         }
-      }
+    }
 }

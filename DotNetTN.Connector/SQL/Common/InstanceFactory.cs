@@ -3,23 +3,20 @@ using DotNetTN.Connector.SQL.Interface;
 using DotNetTN.Connector.SQL.SqlBuilderProvider;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Common
 {
     public class InstanceFactory
     {
-        static Assembly assembly = Assembly.Load(UtilConstants.AssemblyName);
-        static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
+        private static Assembly assembly = Assembly.Load(UtilConstants.AssemblyName);
+        private static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
 
         public static ILambdaExpressions GetLambdaExpressions(Config currentConnectionConfig)
         {
             if (currentConnectionConfig.DbType == DbType.SqlServer)
             {
-              //  return new SqlServerExpressionContext();
+                //  return new SqlServerExpressionContext();
             }
             else
             {
@@ -28,6 +25,7 @@ namespace DotNetTN.Connector.SQL.Common
             }
             return null;
         }
+
         public static UpdateBuilder GetUpdateBuilder(Config currentConnectionConfig)
         {
             UpdateBuilder result = CreateInstance<UpdateBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "UpdateBuilder"));
@@ -39,12 +37,12 @@ namespace DotNetTN.Connector.SQL.Common
             DeleteBuilder result = CreateInstance<DeleteBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "DeleteBuilder"));
             return result;
         }
+
         public static InsertBuilder GetInsertBuilder(Config currentConnectionConfig)
         {
             InsertBuilder result = CreateInstance<InsertBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "InsertBuilder"));
             return result;
         }
- 
 
         public static ISqlBuilder GetSqlbuilder(Config currentConnectionConfig)
         {
@@ -52,14 +50,11 @@ namespace DotNetTN.Connector.SQL.Common
             return result;
         }
 
-
         public static IDbBind GetDbBind(Config currentConnectionConfig)
         {
             IDbBind result = CreateInstance<IDbBind>(GetClassName(currentConnectionConfig.DbType.ToString(), "DbBind"));
             return result;
         }
-
-
 
         public static IAdo GetAdo(Config currentConnectionConfig)
         {
@@ -69,7 +64,7 @@ namespace DotNetTN.Connector.SQL.Common
 
         private static string GetClassName(string type, string name)
         {
-            return UtilConstants.AssemblyName + "." + type+"."+ name+"." +type + name;
+            return UtilConstants.AssemblyName + "." + type + "." + name + "." + type + name;
         }
 
         public static T CreateInstance<T>(string className)
@@ -84,7 +79,7 @@ namespace DotNetTN.Connector.SQL.Common
                 lock (typeCache)
                 {
                     type = assembly.GetType(className);
-                  //  Check.ArgumentNullException(type, string.Format(ErrorMessage.ObjNotExist, className));
+                    //  Check.ArgumentNullException(type, string.Format(ErrorMessage.ObjNotExist, className));
                     if (!typeCache.ContainsKey(className))
                     {
                         typeCache.Add(className, type);
@@ -94,6 +89,5 @@ namespace DotNetTN.Connector.SQL.Common
             var result = (T)Activator.CreateInstance(type, true);
             return result;
         }
-      
     }
 }

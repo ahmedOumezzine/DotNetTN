@@ -1,27 +1,26 @@
 ﻿using DotNetTN.Connector.SQL.Common;
 using DotNetTN.Connector.SQL.Interface;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
-    public abstract partial class SqlBuilderProvider  : ISqlBuilder
+    public abstract partial class SqlBuilderProvider : ISqlBuilder
     {
         public SqlBuilderProvider()
         {
         }
+
         #region Properties
+
         public SqlClient Context { get; set; }
         public CommandType CommandType { get; set; }
         public DeleteBuilder DeleteBuilder { get; set; }
         public InsertBuilder InsertBuilder { get; set; }
         public QueryBuilder QueryBuilder { get; set; }
-      public UpdateBuilder UpdateBuilder { get; set; }
+        public UpdateBuilder UpdateBuilder { get; set; }
         //public SqlQueryBuilder SqlQueryBuilder
         //{
         //    get
@@ -31,12 +30,14 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         //    }
         //    set { base._SqlQueryBuilder = value; }
         //}
-        #endregion
+
+        #endregion Properties
 
         #region abstract Methods
+
         public virtual string GetTranslationTableName(string name)
         {
-       //     Check.ArgumentNullException(name, string.Format(ErrorMessage.ObjNotExist, "Table Name"));
+            //     Check.ArgumentNullException(name, string.Format(ErrorMessage.ObjNotExist, "Table Name"));
             if (name.IsContainsIn("(", ")", SqlTranslationLeft))
             {
                 return name;
@@ -52,10 +53,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             return SqlTranslationLeft + name + SqlTranslationRight;
         }
+
         public virtual string GetTranslationColumnName(string entityName, string propertyName)
         {
-          //  Check.ArgumentNullException(entityName, string.Format(ErrorMessage.ObjNotExist, "Table Name"));
-           // Check.ArgumentNullException(propertyName, string.Format(ErrorMessage.ObjNotExist, "Column Name"));
+            //  Check.ArgumentNullException(entityName, string.Format(ErrorMessage.ObjNotExist, "Table Name"));
+            // Check.ArgumentNullException(propertyName, string.Format(ErrorMessage.ObjNotExist, "Column Name"));
             var context = this.Context;
             var mappingInfo = context
                  .MappingColumns
@@ -77,25 +79,31 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             if (!name.Contains(SqlTranslationLeft)) return name;
             return name == null ? string.Empty : Regex.Match(name, @".*" + "\\" + SqlTranslationLeft + "(.*?)" + "\\" + SqlTranslationRight + "").Groups[1].Value;
         }
+
         public virtual string GetPackTable(string sql, string shortName)
         {
             return Extensions.GetPackTable(sql, shortName);
         }
+
         public virtual void RepairReplicationParameters(ref string appendSql, Parameter[] parameters, int addIndex)
         {
             Extensions.RepairReplicationParameters(ref appendSql, parameters, addIndex);
         }
-        #endregion
+
+        #endregion abstract Methods
 
         #region Common SqlTemplate
+
         public string AppendWhereOrAnd(bool isWhere, string sqlString)
         {
             return isWhere ? (" WHERE " + sqlString) : (" AND " + sqlString);
         }
+
         public string AppendHaving(string sqlString)
         {
             return " HAVING " + sqlString;
         }
+
         public virtual string SqlParameterKeyWord { get { return "@"; } }
         public abstract string SqlTranslationLeft { get; }
         public abstract string SqlTranslationRight { get; }
@@ -103,6 +111,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         public virtual string SqlDateNow { get { return "GETDATE()"; } }
 
         public SqlQueryBuilder SqlQueryBuilder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        #endregion
+
+        #endregion Common SqlTemplate
     }
 }

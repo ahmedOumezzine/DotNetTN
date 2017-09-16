@@ -1,10 +1,7 @@
 ﻿using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Common
 {
@@ -13,6 +10,7 @@ namespace DotNetTN.Connector.SQL.Common
         public bool IsLockCurrentParameter { get; set; }
         public bool IsUpper { get; set; }
         private ExpressionParameter _CurrentParameter;
+
         public ExpressionParameter CurrentParameter
         {
             get
@@ -21,27 +19,34 @@ namespace DotNetTN.Connector.SQL.Common
             }
             set
             {
-              //  Check.Exception(value != null && IsLockCurrentParameter, "CurrentParameter is locked.");
+                //  Check.Exception(value != null && IsLockCurrentParameter, "CurrentParameter is locked.");
                 this._CurrentParameter = value;
                 this.IsLockCurrentParameter = false;
             }
         }
+
         #region constructor
+
         private ExpressionResult()
         {
         }
+
         public ExpressionResult(ResolveExpressType resolveExpressType)
         {
             this._ResolveExpressType = resolveExpressType;
         }
-        #endregion
+
+        #endregion constructor
 
         #region Fields
+
         private ResolveExpressType _ResolveExpressType;
         private StringBuilder _Result;
-        #endregion
+
+        #endregion Fields
 
         #region properties
+
         private StringBuilder Result
         {
             get
@@ -55,7 +60,9 @@ namespace DotNetTN.Connector.SQL.Common
                 _Result = value;
             }
         }
-        #endregion
+
+        #endregion properties
+
         public string GetString()
         {
             if (_Result == null) return null;
@@ -64,7 +71,9 @@ namespace DotNetTN.Connector.SQL.Common
             else
                 return _Result.ToString().TrimEnd(',');
         }
+
         #region functions
+
         public string[] GetResultArray()
         {
             if (this._Result == null) return null;
@@ -121,14 +130,19 @@ namespace DotNetTN.Connector.SQL.Common
                 case ResolveExpressType.Update:
                     parameter = parameter + ",";
                     break;
+
                 case ResolveExpressType.WhereSingle:
                     break;
+
                 case ResolveExpressType.WhereMultiple:
                     break;
+
                 case ResolveExpressType.FieldSingle:
                     break;
+
                 case ResolveExpressType.FieldMultiple:
                     break;
+
                 default:
                     break;
             }
@@ -148,14 +162,19 @@ namespace DotNetTN.Connector.SQL.Common
                 case ResolveExpressType.SelectMultiple:
                     parameter = parameter + ",";
                     break;
+
                 case ResolveExpressType.WhereSingle:
                     break;
+
                 case ResolveExpressType.WhereMultiple:
                     break;
+
                 case ResolveExpressType.FieldSingle:
                     break;
+
                 case ResolveExpressType.FieldMultiple:
                     break;
+
                 default:
                     break;
             }
@@ -166,6 +185,7 @@ namespace DotNetTN.Connector.SQL.Common
         {
             this.Result.Replace(parameter, newValue);
         }
-        #endregion
+
+        #endregion functions
     }
 }

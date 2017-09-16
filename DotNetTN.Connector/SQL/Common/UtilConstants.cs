@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Common
 {
@@ -27,8 +24,10 @@ namespace DotNetTN.Connector.SQL.Common
         internal static Type StringType = typeof(string);
         internal static Type DateType = typeof(DateTime);
         internal static Type ByteArrayType = typeof(byte[]);
-      //  internal static Type ModelType = typeof(ModelContext);
+
+        //  internal static Type ModelType = typeof(ModelContext);
         internal static Type Dicii = typeof(KeyValuePair<int, int>);
+
         internal static Type DicIS = typeof(KeyValuePair<int, string>);
         internal static Type DicSi = typeof(KeyValuePair<string, int>);
         internal static Type DicSS = typeof(KeyValuePair<string, string>);

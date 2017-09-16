@@ -1,11 +1,6 @@
 ﻿using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -22,8 +17,9 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 case ResolveExpressType.SelectMultiple:
                 case ResolveExpressType.FieldSingle:
                 case ResolveExpressType.FieldMultiple:
-                 //   Check.ThrowNotSupportedException("NewArrayExpression");
+                    //   Check.ThrowNotSupportedException("NewArrayExpression");
                     break;
+
                 case ResolveExpressType.ArraySingle:
                     foreach (var item in expression.Expressions)
                     {
@@ -31,6 +27,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         base.Start();
                     }
                     break;
+
                 case ResolveExpressType.Join:
                     base.Context.ResolveType = ResolveExpressType.WhereMultiple;
                     int i = 0;
@@ -55,6 +52,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         }
                     }
                     break;
+
                 default:
                     break;
             }

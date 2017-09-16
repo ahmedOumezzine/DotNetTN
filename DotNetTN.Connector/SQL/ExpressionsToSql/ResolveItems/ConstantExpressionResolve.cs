@@ -1,12 +1,8 @@
 ﻿using DotNetTN.Connector.SQL.Common;
 using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
+
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class ConstantExpressionResolve : BaseResolve
@@ -25,6 +21,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 case ResolveExpressType.SelectMultiple:
                     baseParameter.CommonTempData = value;
                     break;
+
                 case ResolveExpressType.WhereSingle:
                 case ResolveExpressType.WhereMultiple:
                     var parentIsBinary = parameter.BaseParameter.CurrentExpression is BinaryExpression;
@@ -55,6 +52,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                     }
                     AppendValue(parameter, isLeft, value);
                     break;
+
                 case ResolveExpressType.FieldSingle:
                 case ResolveExpressType.FieldMultiple:
                 default:

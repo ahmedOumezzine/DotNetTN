@@ -1,18 +1,18 @@
 ﻿using DotNetTN.Connector.SQL.Interface;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Common
 {
     public class CacheManager<V> : ICacheManager<V>
     {
-        readonly System.Collections.Concurrent.ConcurrentDictionary<string, V> InstanceCache = new System.Collections.Concurrent.ConcurrentDictionary<string, V>();
+        private readonly System.Collections.Concurrent.ConcurrentDictionary<string, V> InstanceCache = new System.Collections.Concurrent.ConcurrentDictionary<string, V>();
         private static CacheManager<V> _instance = null;
         private static readonly object _instanceLock = new object();
-        private CacheManager() { }
+
+        private CacheManager()
+        {
+        }
 
         public V this[string key]
         {
@@ -85,6 +85,7 @@ namespace DotNetTN.Connector.SQL.Common
                 this.Add(cacheKey, errorAction(this, cacheKey));
             }
         }
+
         public V Func(string cacheKey, Func<ICacheManager<V>, string, V> successAction, Func<ICacheManager<V>, string, V> errorAction)
         {
             var cm = CacheManager<V>.GetInstance();
@@ -97,9 +98,11 @@ namespace DotNetTN.Connector.SQL.Common
             }
         }
     }
+
     public static class CacheManager
     {
         private static List<Action> removeActions = new List<Action>();
+
         internal static void Add(Action removeAction)
         {
             removeActions.Add(removeAction);

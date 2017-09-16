@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Common
 {
@@ -18,6 +15,7 @@ namespace DotNetTN.Connector.SQL.Common
                 SettingDataType(value.GetType());
             }
         }
+
         public Parameter(string name, object value, Type type)
         {
             this.Value = value;
@@ -75,33 +73,31 @@ namespace DotNetTN.Connector.SQL.Common
             {
                 this.DbType = System.Data.DbType.String;
             }
-
         }
 
-        public  ParameterDirection Direction
-        {
-            get; set;
-        }
-        public  System.Data.DbType DbType
+        public ParameterDirection Direction
         {
             get; set;
         }
 
-     
-
-        public  bool IsNullable
+        public System.Data.DbType DbType
         {
             get; set;
         }
 
-        public  string ParameterName
+        public bool IsNullable
+        {
+            get; set;
+        }
+
+        public string ParameterName
         {
             get; set;
         }
 
         public int _Size;
 
-        public  int Size
+        public int Size
         {
             get
             {
@@ -114,7 +110,6 @@ namespace DotNetTN.Connector.SQL.Common
                     {
                         var length = Value.ToString().Length;
                         _Size = length < 4000 ? 4000 : -1;
-
                     }
                 }
                 if (_Size == 0)
@@ -127,22 +122,23 @@ namespace DotNetTN.Connector.SQL.Common
             }
         }
 
-        public  string SourceColumn
+        public string SourceColumn
         {
             get; set;
         }
 
-        public  bool SourceColumnNullMapping
+        public bool SourceColumnNullMapping
         {
             get; set;
         }
+
         public string UdtTypeName
         {
             get;
             set;
         }
 
-        public  object Value
+        public object Value
         {
             get; set;
         }
@@ -151,7 +147,5 @@ namespace DotNetTN.Connector.SQL.Common
         {
             get; set;
         }
-
-      
     }
 }

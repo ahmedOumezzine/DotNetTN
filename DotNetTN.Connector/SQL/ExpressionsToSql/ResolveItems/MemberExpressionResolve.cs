@@ -3,14 +3,14 @@ using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class MemberExpressionResolve : BaseResolve
     {
         public ExpressionParameter Parameter { get; set; }
+
         public MemberExpressionResolve(ExpressionParameter parameter) : base(parameter)
         {
             var baseParameter = parameter.BaseParameter;
@@ -107,7 +107,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                          }
                     };
                     AppendMember(parameter, isLeft, GetToDate(this.Context.DbMehtods.MergeString(
-                        this.GetDateValue(parameter.CommonTempData, DateType.Year), 
+                        this.GetDateValue(parameter.CommonTempData, DateType.Year),
                         "+'-'+",
                         this.GetDateValue(parameter.CommonTempData, DateType.Month),
                         "+'-'+",
@@ -149,6 +149,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         base.Context.Result.Append(fieldName);
                     }
                     break;
+
                 case ResolveExpressType.SelectMultiple:
                     fieldName = GetMultipleName(parameter, expression, isLeft);
                     if (isSetTempData)
@@ -160,6 +161,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         base.Context.Result.Append(fieldName);
                     }
                     break;
+
                 case ResolveExpressType.WhereSingle:
                 case ResolveExpressType.WhereMultiple:
                     var isSingle = parameter.Context.ResolveType == ResolveExpressType.WhereSingle;
@@ -191,19 +193,23 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         fieldName = AppendMember(parameter, isLeft, fieldName);
                     }
                     break;
+
                 case ResolveExpressType.FieldSingle:
                     fieldName = GetSingleName(parameter, expression, isLeft);
                     base.Context.Result.Append(fieldName);
                     break;
+
                 case ResolveExpressType.FieldMultiple:
                     fieldName = GetMultipleName(parameter, expression, isLeft);
                     base.Context.Result.Append(fieldName);
                     break;
+
                 case ResolveExpressType.ArrayMultiple:
                 case ResolveExpressType.ArraySingle:
                     fieldName = GetName(parameter, expression, isLeft, parameter.Context.ResolveType == ResolveExpressType.ArraySingle);
                     base.Context.Result.Append(fieldName);
                     break;
+
                 default:
                     break;
             }
@@ -275,6 +281,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             };
             return this.Context.DbMehtods.DateValue(pars);
         }
+
         private string GetToDate(string value)
         {
             var pars = new MethodCallExpressionModel()

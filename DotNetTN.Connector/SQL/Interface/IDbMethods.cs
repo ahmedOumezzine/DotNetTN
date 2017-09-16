@@ -2,9 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.Interface
 {
@@ -36,7 +33,6 @@ namespace DotNetTN.Connector.SQL.Interface
             return string.Format("( {0}>0 AND {0} IS NOT NULL )", parameter.MemberName);
         }
 
-
         public virtual string ToUpper(MethodCallExpressionModel model)
         {
             var parameter = model.Args[0];
@@ -61,6 +57,7 @@ namespace DotNetTN.Connector.SQL.Interface
             var parameter2 = model.Args[1];
             return string.Format(" ({0} like '%'+{1}+'%') ", parameter.MemberName, parameter2.MemberName);
         }
+
         public virtual string ContainsArray(MethodCallExpressionModel model)
         {
             var inValueIEnumerable = (IEnumerable)model.Args[0].MemberValue;
@@ -211,6 +208,7 @@ namespace DotNetTN.Connector.SQL.Interface
             var parameter = model.Args[0];
             return string.Format(" CAST({0} AS MONEY)", parameter.MemberName);
         }
+
         public virtual string Substring(MethodCallExpressionModel model)
         {
             var parameter = model.Args[0];
@@ -298,48 +296,88 @@ namespace DotNetTN.Connector.SQL.Interface
         }
     }
 
-public interface IDbMethods
+    public interface IDbMethods
     {
         string IIF(MethodCallExpressionModel model);
+
         string HasNumber(MethodCallExpressionModel model);
+
         string HasValue(MethodCallExpressionModel model);
+
         string IsNullOrEmpty(MethodCallExpressionModel model);
+
         string ToLower(MethodCallExpressionModel model);
+
         string ToUpper(MethodCallExpressionModel model);
+
         string Trim(MethodCallExpressionModel model);
+
         string Contains(MethodCallExpressionModel model);
+
         string ContainsArray(MethodCallExpressionModel model);
+
         string Equals(MethodCallExpressionModel model);
+
         string DateIsSameDay(MethodCallExpressionModel model);
+
         string DateIsSameByType(MethodCallExpressionModel model);
+
         string DateAddByType(MethodCallExpressionModel model);
+
         string DateValue(MethodCallExpressionModel model);
+
         string DateAddDay(MethodCallExpressionModel model);
+
         string Between(MethodCallExpressionModel model);
+
         string StartsWith(MethodCallExpressionModel model);
+
         string EndsWith(MethodCallExpressionModel model);
+
         string ToInt32(MethodCallExpressionModel model);
+
         string ToInt64(MethodCallExpressionModel model);
+
         string ToString(MethodCallExpressionModel model);
+
         string ToGuid(MethodCallExpressionModel model);
+
         string ToDouble(MethodCallExpressionModel model);
+
         string ToBool(MethodCallExpressionModel model);
+
         string Substring(MethodCallExpressionModel model);
+
         string ToDate(MethodCallExpressionModel model);
+
         string ToTime(MethodCallExpressionModel model);
+
         string ToDecimal(MethodCallExpressionModel model);
+
         string Length(MethodCallExpressionModel model);
+
         string Replace(MethodCallExpressionModel model);
+
         string AggregateSum(MethodCallExpressionModel model);
+
         string AggregateAvg(MethodCallExpressionModel model);
+
         string AggregateMin(MethodCallExpressionModel model);
+
         string AggregateMax(MethodCallExpressionModel model);
+
         string AggregateCount(MethodCallExpressionModel model);
+
         string MappingColumn(MethodCallExpressionModel model);
+
         string GetSelfAndAutoFill(string shortName, bool isSingle);
+
         string True();
+
         string False();
+
         string GuidNew();
+
         string MergeString(params string[] strings);
     }
 }

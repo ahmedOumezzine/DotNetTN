@@ -2,11 +2,8 @@
 using DotNetTN.Connector.SQL.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.ExpressionsToSql
 {
@@ -19,34 +16,46 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 case ExpressionType.And:
                 case ExpressionType.AndAlso:
                     return "AND";
+
                 case ExpressionType.Equal:
                     return "=";
+
                 case ExpressionType.GreaterThan:
                     return ">";
+
                 case ExpressionType.GreaterThanOrEqual:
                     return ">=";
+
                 case ExpressionType.LessThan:
                     return "<";
+
                 case ExpressionType.LessThanOrEqual:
                     return "<=";
+
                 case ExpressionType.NotEqual:
                     return "<>";
+
                 case ExpressionType.Or:
                 case ExpressionType.OrElse:
                     return "OR";
+
                 case ExpressionType.Add:
                 case ExpressionType.AddChecked:
                     return "+";
+
                 case ExpressionType.Subtract:
                 case ExpressionType.SubtractChecked:
                     return "-";
+
                 case ExpressionType.Divide:
                     return "/";
+
                 case ExpressionType.Multiply:
                 case ExpressionType.MultiplyChecked:
                     return "*";
+
                 default:
-                   // Check.ThrowNotSupportedException(string.Format(ErrorMessage.OperatorError, expressiontype.ToString()));
+                    // Check.ThrowNotSupportedException(string.Format(ErrorMessage.OperatorError, expressiontype.ToString()));
                     return null;
             }
         }
@@ -72,6 +81,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                                         expression.NodeType == ExpressionType.Or ||
                                         expression.NodeType == ExpressionType.OrElse;
         }
+
         public static bool IsComparisonOperator(Expression expression)
         {
             return expression.NodeType != ExpressionType.And &&
@@ -79,6 +89,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                                         expression.NodeType != ExpressionType.Or &&
                                         expression.NodeType != ExpressionType.OrElse;
         }
+
         public static object GetMemberValue(MemberInfo member, Expression expression)
         {
             var rootExpression = expression as MemberExpression;
@@ -105,7 +116,6 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 }
                 if (memberExpr.Expression == null)
                 {
-
                 }
                 expression = memberExpr.Expression;
             }
@@ -149,7 +159,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
         {
             object reval = null;
             FieldInfo field = (FieldInfo)memberExpr.Member;
-         //   Check.Exception(field.IsPrivate, string.Format(" Field \"{0}\" can't be private ", field.Name));
+            //   Check.Exception(field.IsPrivate, string.Format(" Field \"{0}\" can't be private ", field.Name));
             reval = field.GetValue(memberExpr.Member);
             if (reval != null && reval.GetType().IsClass() && reval.GetType() != UtilConstants.StringType)
             {
@@ -166,12 +176,11 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 }
                 if (fieInfo == null && proInfo == null)
                 {
-                //    Check.Exception(field.IsPrivate, string.Format(" Field \"{0}\" can't be private ", field.Name));
+                    //    Check.Exception(field.IsPrivate, string.Format(" Field \"{0}\" can't be private ", field.Name));
                 }
             }
             return reval;
         }
-
 
         public static bool IsConstExpression(MemberExpression memberExpr)
         {
@@ -209,7 +218,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 }
                 if (fieInfo == null && proInfo == null)
                 {
-                  //  Check.Exception(true, string.Format(" Property \"{0}\" can't be private ", pro.Name));
+                    //  Check.Exception(true, string.Format(" Property \"{0}\" can't be private ", pro.Name));
                 }
             }
             return reval;

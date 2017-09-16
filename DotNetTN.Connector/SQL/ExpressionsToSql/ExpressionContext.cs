@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.ExpressionsToSql
 {
@@ -15,14 +13,18 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
         protected List<Parameter> _Parameters;
         protected ExpressionResult _Result;
     }
+
     public class ExpressionContext : ExpResolveAccessory
     {
         #region Fields
+
         private bool _IsSingle = true;
         private IDbMethods _DbMehtods { get; set; }
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         public IDbMethods DbMehtods
         {
             get
@@ -38,10 +40,12 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 _DbMehtods = value;
             }
         }
+
         public int Index { get; set; }
         public int ParameterIndex { get; set; }
         public MappingColumnList MappingColumns { get; set; }
         public MappingTableList MappingTables { get; set; }
+
         public bool IsSingle
         {
             get
@@ -53,6 +57,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 _IsSingle = value;
             }
         }
+
         public bool IsJoin
         {
             get
@@ -60,9 +65,11 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 return !IsSingle;
             }
         }
+
         public List<JoinQueryInfo> JoinQueryInfos { get; set; }
         public ResolveExpressType ResolveType { get; set; }
         public Expression Expression { get; set; }
+
         public ExpressionResult Result
         {
             get
@@ -78,6 +85,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 this._Result = value;
             }
         }
+
         public List<Parameter> Parameters
         {
             get
@@ -91,6 +99,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 base._Parameters = value;
             }
         }
+
         public virtual string SqlParameterKeyWord
         {
             get
@@ -98,11 +107,14 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 return "@";
             }
         }
+
         public virtual string SqlTranslationLeft { get { return "["; } }
         public virtual string SqlTranslationRight { get { return "]"; } }
-        #endregion
 
-        #region Core methods 
+        #endregion Properties
+
+        #region Core methods
+
         public void Resolve(Expression expression, ResolveExpressType resolveType)
         {
             this.ResolveType = resolveType;
@@ -110,11 +122,13 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
             BaseResolve resolve = new BaseResolve(new ExpressionParameter() { CurrentExpression = this.Expression, Context = this });
             resolve.Start();
         }
+
         public void Clear()
         {
             base._Result = null;
             base._Parameters = new List<Parameter>();
         }
+
         public ExpressionContext GetCopyContext()
         {
             ExpressionContext copyContext = (ExpressionContext)Activator.CreateInstance(this.GetType(), true);
@@ -122,9 +136,11 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
             copyContext.ParameterIndex = this.ParameterIndex;
             return copyContext;
         }
-        #endregion
+
+        #endregion Core methods
 
         #region Override methods
+
         public virtual string GetTranslationTableName(string entityName, bool isMapping = true)
         {
             if (IsTranslationText(entityName)) return entityName;
@@ -154,9 +170,10 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 return GetTranslationText(entityName);
             }
         }
+
         public virtual string GetTranslationColumnName(string columnName)
         {
-         //   Check.ArgumentNullException(columnName, string.Format(ErrorMessage.ObjNotExist, "Column Name"));
+            //   Check.ArgumentNullException(columnName, string.Format(ErrorMessage.ObjNotExist, "Column Name"));
             if (columnName.Substring(0, 1) == this.SqlParameterKeyWord)
             {
                 return columnName;
@@ -171,6 +188,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 return GetTranslationText(columnName);
             }
         }
+
         public virtual string GetDbColumnName(string entityName, string propertyName)
         {
             if (this.MappingColumns.IsValuable())
@@ -183,15 +201,18 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
                 return propertyName;
             }
         }
+
         public virtual bool IsTranslationText(string name)
         {
             var result = name.IsContainsIn(SqlTranslationLeft, SqlTranslationRight, UtilConstants.Space, ExpressionConst.LeftParenthesis, ExpressionConst.RightParenthesis);
             return result;
         }
+
         public virtual string GetTranslationText(string name)
         {
             return SqlTranslationLeft + name + SqlTranslationRight;
         }
+
         public virtual string GetAsString(string asName, string fieldValue)
         {
             if (fieldValue.Contains(".*") || fieldValue == "*") return fieldValue;
@@ -208,6 +229,7 @@ namespace DotNetTN.Connector.SQL.ExpressionsToSql
             if (fieldValue.Contains(".*") || fieldValue == "*") return fieldValue;
             return string.Format(" {0} {1} {2} ", GetTranslationColumnName(fieldShortName + "." + fieldValue), "AS", GetTranslationColumnName(asName));
         }
-        #endregion
+
+        #endregion Override methods
     }
 }

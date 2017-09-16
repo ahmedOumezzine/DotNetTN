@@ -1,12 +1,10 @@
 ﻿using DotNetTN.Connector.SQL.Common;
 using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.ExpressionsToSql;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class MethodCallExpressionResolve : BaseResolve
@@ -29,7 +27,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 methodName = "DateAdd";
                 isValidNativeMethod = true;
             }
-           
             else if (methodName == "NewGuid")
             {
                 this.Context.Result.Append(this.Context.DbMehtods.GuidNew());
@@ -62,22 +59,26 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             {
                 case ResolveExpressType.WhereSingle:
                 case ResolveExpressType.WhereMultiple:
-                  //  Check.Exception(name == "GetSelfAndAutoFill", "SqlFunc.GetSelfAndAutoFill can only be used in Select.");
+                    //  Check.Exception(name == "GetSelfAndAutoFill", "SqlFunc.GetSelfAndAutoFill can only be used in Select.");
                     Where(parameter, isLeft, name, args, model);
                     break;
+
                 case ResolveExpressType.SelectSingle:
                 case ResolveExpressType.SelectMultiple:
                 case ResolveExpressType.Update:
                     Select(parameter, isLeft, name, args, model);
                     break;
+
                 case ResolveExpressType.FieldSingle:
                 case ResolveExpressType.FieldMultiple:
                     Field(parameter, isLeft, name, args, model);
                     break;
+
                 default:
                     break;
             }
         }
+
         private void NativeExtensionMethod(ExpressionParameter parameter, MethodCallExpression express, bool? isLeft, string name, List<MethodCallExpressionArgs> appendArgs = null)
         {
             var method = express.Method;
@@ -92,6 +93,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         args.Insert(0, express.Object);
                     Where(parameter, isLeft, name, args, model, appendArgs);
                     break;
+
                 case ResolveExpressType.SelectSingle:
                 case ResolveExpressType.SelectMultiple:
                 case ResolveExpressType.Update:
@@ -99,6 +101,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                         args.Insert(0, express.Object);
                     Select(parameter, isLeft, name, args, model, appendArgs);
                     break;
+
                 case ResolveExpressType.FieldSingle:
                 case ResolveExpressType.FieldMultiple:
                 default:
@@ -112,11 +115,13 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             {
                 this.Context.ResolveType = ResolveExpressType.WhereSingle;
             }
-            else {
+            else
+            {
                 this.Context.ResolveType = ResolveExpressType.WhereMultiple;
             }
             Where(parameter, isLeft, name, args, model);
         }
+
         private void Select(ExpressionParameter parameter, bool? isLeft, string name, IEnumerable<Expression> args, MethodCallExpressionModel model, List<MethodCallExpressionArgs> appendArgs = null)
         {
             if (name == "GetSelfAndAutoFill")
@@ -135,7 +140,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                     model.Args.AddRange(appendArgs);
                 }
             }
-            if (parameter.BaseParameter.BaseParameter.BaseParameter==null)
+            if (parameter.BaseParameter.BaseParameter.BaseParameter == null)
             {
                 this.Context.Result.Append(GetMdthodValue(name, model));
             }
@@ -144,6 +149,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 parameter.BaseParameter.CommonTempData = GetMdthodValue(name, model);
             }
         }
+
         private void Where(ExpressionParameter parameter, bool? isLeft, string name, IEnumerable<Expression> args, MethodCallExpressionModel model, List<MethodCallExpressionArgs> appendArgs = null)
         {
             foreach (var item in args)
@@ -162,7 +168,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         {
             var isBinaryExpression = item is BinaryExpression || item is MethodCallExpression;
             var isConst = item is ConstantExpression;
-            var isIIF= name == "IIF";
+            var isIIF = name == "IIF";
             var isIFFBoolMember = isIIF && (item is MemberExpression) && (item as MemberExpression).Type == UtilConstants.BoolType;
             var isIFFUnary = isIIF && (item is UnaryExpression) && (item as UnaryExpression).Operand.Type == UtilConstants.BoolType;
             var isIFFBoolBinary = isIIF && (item is BinaryExpression) && (item as BinaryExpression).Type == UtilConstants.BoolType;
@@ -179,59 +185,70 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 };
                 model.Args.Add(methodCallExpressionArgs);
             }
-           
             else if (isIFFBoolBinary && !isFirst)
             {
                 AppendModelByIIFBinary(parameter, model, item);
-
             }
-            else if (isIFFBoolMethod && !isFirst) {
+            else if (isIFFBoolMethod && !isFirst)
+            {
                 AppendModelByIIFMethod(parameter, model, item);
             }
         }
+
         private void AppendModelByIIFBinary(ExpressionParameter parameter, MethodCallExpressionModel model, Expression item)
         {
             //Check.Exception(true, "The SqlFunc.IIF(arg1,arg2,arg3) , {0} argument  do not support ", item.ToString());
         }
+
         private void AppendModelByIIFMethod(ExpressionParameter parameter, MethodCallExpressionModel model, Expression item)
         {
             var methodExpression = item as MethodCallExpression;
-            if (methodExpression.Method.Name.IsIn("ToBool", "ToBoolean","IIF"))
+            if (methodExpression.Method.Name.IsIn("ToBool", "ToBoolean", "IIF"))
             {
                 model.Args.Add(base.GetMethodCallArgs(parameter, item));
             }
             else
             {
-          //      Check.Exception(true, "The SqlFunc.IIF(arg1,arg2,arg3) , {0} argument  do not support ", item.ToString());
+                //      Check.Exception(true, "The SqlFunc.IIF(arg1,arg2,arg3) , {0} argument  do not support ", item.ToString());
             }
         }
-    
+
         private object GetMdthodValue(string name, MethodCallExpressionModel model)
         {
             switch (name)
             {
                 case "IIF":
                     return this.Context.DbMehtods.IIF(model);
+
                 case "HasNumber":
                     return this.Context.DbMehtods.HasNumber(model);
+
                 case "HasValue":
                     return this.Context.DbMehtods.HasValue(model);
+
                 case "IsNullOrEmpty":
                     return this.Context.DbMehtods.IsNullOrEmpty(model);
+
                 case "ToLower":
                     return this.Context.DbMehtods.ToLower(model);
+
                 case "ToUpper":
                     return this.Context.DbMehtods.ToUpper(model);
+
                 case "Trim":
                     return this.Context.DbMehtods.Trim(model);
+
                 case "Contains":
                     return this.Context.DbMehtods.Contains(model);
+
                 case "ContainsArray":
                     var caResult = this.Context.DbMehtods.ContainsArray(model);
                     this.Context.Parameters.RemoveAll(it => it.ParameterName == model.Args[0].MemberName.ObjToString());
                     return caResult;
+
                 case "Equals":
                     return this.Context.DbMehtods.Equals(model);
+
                 case "DateIsSame":
                     if (model.Args.Count == 2)
                         return this.Context.DbMehtods.DateIsSameDay(model);
@@ -254,56 +271,79 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                     var dvResult = this.Context.DbMehtods.DateValue(model);
                     this.Context.Parameters.RemoveAll(it => it.ParameterName == model.Args[1].MemberName.ObjToString());
                     return dvResult;
+
                 case "Between":
                     return this.Context.DbMehtods.Between(model);
+
                 case "StartsWith":
                     return this.Context.DbMehtods.StartsWith(model);
+
                 case "EndsWith":
                     return this.Context.DbMehtods.EndsWith(model);
+
                 case "ToInt32":
                     return this.Context.DbMehtods.ToInt32(model);
+
                 case "ToInt64":
                     return this.Context.DbMehtods.ToInt64(model);
+
                 case "ToDate":
                     return this.Context.DbMehtods.ToDate(model);
+
                 case "ToTime":
                     return this.Context.DbMehtods.ToTime(model);
+
                 case "ToString":
-                   // Check.Exception(model.Args.Count > 1, "ToString (Format) is not supported, Use ToString().If time formatting can be used it.Date.Year+\"-\"+it.Data.Month+\"-\"+it.Date.Day ");
+                    // Check.Exception(model.Args.Count > 1, "ToString (Format) is not supported, Use ToString().If time formatting can be used it.Date.Year+\"-\"+it.Data.Month+\"-\"+it.Date.Day ");
                     return this.Context.DbMehtods.ToString(model);
+
                 case "ToDecimal":
                     return this.Context.DbMehtods.ToDecimal(model);
+
                 case "ToGuid":
                     return this.Context.DbMehtods.ToGuid(model);
+
                 case "ToDouble":
                     return this.Context.DbMehtods.ToDouble(model);
+
                 case "ToBool":
                     return this.Context.DbMehtods.ToBool(model);
+
                 case "Substring":
                     return this.Context.DbMehtods.Substring(model);
+
                 case "Replace":
                     return this.Context.DbMehtods.Replace(model);
+
                 case "Length":
                     return this.Context.DbMehtods.Length(model);
+
                 case "AggregateSum":
                     return this.Context.DbMehtods.AggregateSum(model);
+
                 case "AggregateAvg":
                     return this.Context.DbMehtods.AggregateAvg(model);
+
                 case "AggregateMin":
                     return this.Context.DbMehtods.AggregateMin(model);
+
                 case "AggregateMax":
                     return this.Context.DbMehtods.AggregateMax(model);
+
                 case "AggregateCount":
                     return this.Context.DbMehtods.AggregateCount(model);
+
                 case "MappingColumn":
                     var mappingColumnResult = this.Context.DbMehtods.MappingColumn(model);
                     var isValid = model.Args[0].IsMember && model.Args[1].IsMember == false;
-                  //  Check.Exception(!isValid, "SqlFunc.MappingColumn parameters error, The property name on the left, string value on the right");
+                    //  Check.Exception(!isValid, "SqlFunc.MappingColumn parameters error, The property name on the left, string value on the right");
                     this.Context.Parameters.RemoveAll(it => it.ParameterName == model.Args[1].MemberName.ObjToString());
                     return mappingColumnResult;
+
                 case "GetSelfAndAutoFill":
                     this.Context.Parameters.RemoveAll(it => it.ParameterName == model.Args[0].MemberName.ObjToString());
                     return this.Context.DbMehtods.GetSelfAndAutoFill(model.Args[0].MemberValue.ObjToString(), this.Context.IsSingle);
+
                 default:
                     break;
             }
@@ -346,7 +386,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         private void CheckMethod(MethodCallExpression expression)
         {
-        //    Check.Exception(expression.Method.ReflectedType().FullName != ExpressionConst.SqlFuncFullName, string.Format(ErrorMessage.MethodError, expression.Method.Name));
+            //    Check.Exception(expression.Method.ReflectedType().FullName != ExpressionConst.SqlFuncFullName, string.Format(ErrorMessage.MethodError, expression.Method.Name));
         }
     }
 }

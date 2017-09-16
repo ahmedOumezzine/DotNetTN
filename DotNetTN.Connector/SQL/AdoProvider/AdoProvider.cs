@@ -6,14 +6,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.AdoProvider
 {
     public abstract partial class AdoProvider : AdoAccessory, IAdo
     {
         #region Constructor
+
         public AdoProvider()
         {
             this.IsEnableLogEvent = false;
@@ -21,9 +20,11 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             this.IsClearParameters = true;
             this.CommandTimeOut = 30000;
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties
+
         protected List<IDataParameter> OutputParameters { get; set; }
         public virtual string SqlParameterKeyWord { get { return "@"; } }
         public IDbTransaction Transaction { get; set; }
@@ -31,6 +32,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
         internal CommandType OldCommandType { get; set; }
         internal bool OldClearParameters { get; set; }
         public IDataParameterCollection DataReaderParameters { get; set; }
+
         public virtual IDbBind DbBind
         {
             get
@@ -44,6 +46,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return base._DbBind;
             }
         }
+
         public virtual int CommandTimeOut { get; set; }
         public virtual CommandType CommandType { get; set; }
         public virtual bool IsEnableLogEvent { get; set; }
@@ -51,13 +54,16 @@ namespace DotNetTN.Connector.SQL.AdoProvider
         public virtual Action<string, string> LogEventStarting { get; set; }
         public virtual Action<string, string> LogEventCompleted { get; set; }
         public virtual Func<string, Parameter[], KeyValuePair<string, Parameter[]>> ProcessingEventStartingSQL { get; set; }
-        #endregion
+
+        #endregion Properties
 
         #region Connection
+
         public virtual void Open()
         {
             CheckConnection();
         }
+
         public virtual void Close()
         {
             if (this.Transaction != null)
@@ -69,6 +75,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 this.Connection.Close();
             }
         }
+
         public virtual void Dispose()
         {
             if (this.Transaction != null)
@@ -86,6 +93,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             }
             this.Connection = null;
         }
+
         public virtual void CheckConnection()
         {
             if (this.Connection.State != ConnectionState.Open)
@@ -96,24 +104,27 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 }
                 catch (Exception ex)
                 {
-                  //  Check.Exception(true, ErrorMessage.ConnnectionOpen, ex.Message);
+                    //  Check.Exception(true, ErrorMessage.ConnnectionOpen, ex.Message);
                 }
             }
         }
 
-        #endregion
+        #endregion Connection
 
         #region Transaction
+
         public virtual void BeginTran()
         {
             CheckConnection();
             this.Transaction = this.Connection.BeginTransaction();
         }
+
         public virtual void BeginTran(IsolationLevel iso)
         {
             CheckConnection();
             this.Transaction = this.Connection.BeginTransaction(iso);
         }
+
         public virtual void RollbackTran()
         {
             if (this.Transaction != null)
@@ -123,6 +134,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 if (this.Context.CurrentConfig.IsAutoCloseConnection) this.Close();
             }
         }
+
         public virtual void CommitTran()
         {
             if (this.Transaction != null)
@@ -132,19 +144,29 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 if (this.Context.CurrentConfig.IsAutoCloseConnection) this.Close();
             }
         }
-        #endregion
+
+        #endregion Transaction
 
         #region abstract
+
         public abstract IDataParameter[] ToIDbDataParameter(params Parameter[] pars);
+
         public abstract void SetCommandToAdapter(IDataAdapter adapter, IDbCommand command);
+
         public abstract IDataAdapter GetAdapter();
+
         public abstract IDbCommand GetCommand(string sql, Parameter[] pars);
+
         public abstract IDbConnection Connection { get; set; }
+
         public abstract void BeginTran(string transactionName);//Only SqlServer
-        public abstract void BeginTran(IsolationLevel iso, string transactionName);//Only SqlServer 
-        #endregion
+
+        public abstract void BeginTran(IsolationLevel iso, string transactionName);//Only SqlServer
+
+        #endregion abstract
 
         #region Use
+
         public DbResult<bool> UseTran(Action action)
         {
             var result = new DbResult<bool>();
@@ -165,6 +187,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             }
             return result;
         }
+
         public DbResult<T> UseTran<T>(Func<T> action)
         {
             var result = new DbResult<T>();
@@ -185,6 +208,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             }
             return result;
         }
+
         public void UseStoredProcedure(Action action)
         {
             var oldCommandType = this.CommandType;
@@ -197,6 +221,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             this.CommandType = oldCommandType;
             this.IsClearParameters = true;
         }
+
         public T UseStoredProcedure<T>(Func<T> action)
         {
             T result = default(T);
@@ -211,6 +236,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             this.IsClearParameters = true;
             return result;
         }
+
         public IAdo UseStoredProcedure()
         {
             this.OldCommandType = this.CommandType;
@@ -219,9 +245,11 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             this.IsClearParameters = false;
             return this;
         }
-        #endregion
+
+        #endregion Use
 
         #region Core
+
         public virtual int ExecuteCommand(string sql, params Parameter[] parameters)
         {
             try
@@ -245,6 +273,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 if (this.IsClose()) this.Close();
             }
         }
+
         public virtual IDataReader GetDataReader(string sql, params Parameter[] parameters)
         {
             var isSp = this.CommandType == CommandType.StoredProcedure;
@@ -260,6 +289,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             ExecuteAfter(sql, parameters);
             return sqlDataReader;
         }
+
         public virtual DataSet GetDataSetAll(string sql, params Parameter[] parameters)
         {
             try
@@ -286,6 +316,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 if (this.IsClose()) this.Close();
             }
         }
+
         public virtual object GetScalar(string sql, params Parameter[] parameters)
         {
             try
@@ -310,7 +341,8 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 if (this.IsClose()) this.Close();
             }
         }
-        #endregion
+
+        #endregion Core
 
         #region Methods
 
@@ -318,10 +350,12 @@ namespace DotNetTN.Connector.SQL.AdoProvider
         {
             return GetString(sql, this.GetParameters(parameters));
         }
+
         public virtual string GetString(string sql, params Parameter[] parameters)
         {
             return Convert.ToString(GetScalar(sql, parameters));
         }
+
         public virtual string GetString(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -333,14 +367,17 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetString(sql, parameters.ToArray());
             }
         }
+
         public virtual int GetInt(string sql, object parameters)
         {
             return GetInt(sql, this.GetParameters(parameters));
         }
+
         public virtual int GetInt(string sql, params Parameter[] parameters)
         {
             return GetScalar(sql, parameters).ObjToInt();
         }
+
         public virtual int GetInt(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -352,14 +389,17 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetInt(sql, parameters.ToArray());
             }
         }
+
         public virtual Double GetDouble(string sql, object parameters)
         {
             return GetDouble(sql, this.GetParameters(parameters));
         }
+
         public virtual Double GetDouble(string sql, params Parameter[] parameters)
         {
             return GetScalar(sql, parameters).ObjToMoney();
         }
+
         public virtual Double GetDouble(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -371,14 +411,17 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetDouble(sql, parameters.ToArray());
             }
         }
+
         public virtual decimal GetDecimal(string sql, object parameters)
         {
             return GetDecimal(sql, this.GetParameters(parameters));
         }
+
         public virtual decimal GetDecimal(string sql, params Parameter[] parameters)
         {
             return GetScalar(sql, parameters).ObjToDecimal();
         }
+
         public virtual decimal GetDecimal(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -390,14 +433,17 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetDecimal(sql, parameters.ToArray());
             }
         }
+
         public virtual DateTime GetDateTime(string sql, object parameters)
         {
             return GetDateTime(sql, this.GetParameters(parameters));
         }
+
         public virtual DateTime GetDateTime(string sql, params Parameter[] parameters)
         {
             return GetScalar(sql, parameters).ObjToDate();
         }
+
         public virtual DateTime GetDateTime(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -409,11 +455,13 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetDateTime(sql, parameters.ToArray());
             }
         }
+
         public virtual List<T> SqlQuery<T>(string sql, object parameters = null)
         {
             var Parameters = this.GetParameters(parameters);
             return SqlQuery<T>(sql, Parameters);
         }
+
         public virtual List<T> SqlQuery<T>(string sql, params Parameter[] parameters)
         {
             var builder = InstanceFactory.GetSqlbuilder(this.Context.CurrentConfig);
@@ -440,6 +488,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
             }
             return result;
         }
+
         public virtual List<T> SqlQuery<T>(string sql, List<Parameter> parameters)
         {
             if (parameters != null)
@@ -451,46 +500,55 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return SqlQuery<T>(sql);
             }
         }
+
         public virtual T SqlQuerySingle<T>(string sql, object parameters = null)
         {
             var result = SqlQuery<T>(sql, parameters);
             return result == null ? default(T) : result.FirstOrDefault();
         }
+
         public virtual T SqlQuerySingle<T>(string sql, params Parameter[] parameters)
         {
             var result = SqlQuery<T>(sql, parameters);
             return result == null ? default(T) : result.FirstOrDefault();
         }
+
         public virtual T SqlQuerySingle<T>(string sql, List<Parameter> parameters)
         {
             var result = SqlQuery<T>(sql, parameters);
             return result == null ? default(T) : result.FirstOrDefault();
         }
+
         public virtual dynamic SqlQueryDynamic(string sql, object parameters = null)
         {
             var dt = this.GetDataTable(sql, parameters);
             return dt == null ? null : this.Context.Utilities.DataTableToDynamic(dt);
         }
+
         public virtual dynamic SqlQueryDynamic(string sql, params Parameter[] parameters)
         {
             var dt = this.GetDataTable(sql, parameters);
             return dt == null ? null : this.Context.Utilities.DataTableToDynamic(dt);
         }
+
         public dynamic SqlQueryDynamic(string sql, List<Parameter> parameters)
         {
             var dt = this.GetDataTable(sql, parameters);
             return dt == null ? null : this.Context.Utilities.DataTableToDynamic(dt);
         }
+
         public virtual DataTable GetDataTable(string sql, params Parameter[] parameters)
         {
             var ds = GetDataSetAll(sql, parameters);
             if (ds.Tables.Count != 0 && ds.Tables.Count > 0) return ds.Tables[0];
             return new DataTable();
         }
+
         public virtual DataTable GetDataTable(string sql, object parameters)
         {
             return GetDataTable(sql, this.GetParameters(parameters));
         }
+
         public virtual DataTable GetDataTable(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -502,10 +560,12 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetDataTable(sql, parameters.ToArray());
             }
         }
+
         public virtual DataSet GetDataSetAll(string sql, object parameters)
         {
             return GetDataSetAll(sql, this.GetParameters(parameters));
         }
+
         public virtual DataSet GetDataSetAll(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -517,10 +577,12 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetDataSetAll(sql, parameters.ToArray());
             }
         }
+
         public virtual IDataReader GetDataReader(string sql, object parameters)
         {
             return GetDataReader(sql, this.GetParameters(parameters));
         }
+
         public virtual IDataReader GetDataReader(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -532,10 +594,12 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetDataReader(sql, parameters.ToArray());
             }
         }
+
         public virtual object GetScalar(string sql, object parameters)
         {
             return GetScalar(sql, this.GetParameters(parameters));
         }
+
         public virtual object GetScalar(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -547,10 +611,12 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return GetScalar(sql, parameters.ToArray());
             }
         }
+
         public virtual int ExecuteCommand(string sql, object parameters)
         {
             return ExecuteCommand(sql, GetParameters(parameters));
         }
+
         public virtual int ExecuteCommand(string sql, List<Parameter> parameters)
         {
             if (parameters == null)
@@ -562,15 +628,18 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 return ExecuteCommand(sql, parameters.ToArray());
             }
         }
-        #endregion
 
-        #region  Helper
+        #endregion Methods
+
+        #region Helper
+
         private void ExecuteProcessingSQL(ref string sql, Parameter[] parameters)
         {
             var result = this.ProcessingEventStartingSQL(sql, parameters);
             sql = result.Key;
             parameters = result.Value;
         }
+
         public virtual void ExecuteBefore(string sql, Parameter[] parameters)
         {
             if (this.IsEnableLogEvent)
@@ -589,6 +658,7 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 }
             }
         }
+
         public virtual void ExecuteAfter(string sql, Parameter[] parameters)
         {
             var hasParameter = parameters.IsValuable();
@@ -624,15 +694,18 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 this.OldClearParameters = false;
             }
         }
+
         public virtual Parameter[] GetParameters(object parameters, PropertyInfo[] propertyInfo = null)
         {
             if (parameters == null) return null;
             return base.GetParameters(parameters, propertyInfo, this.SqlParameterKeyWord);
         }
+
         private bool IsClose()
         {
             return this.Context.CurrentConfig.IsAutoCloseConnection && this.Transaction == null;
         }
-        #endregion
+
+        #endregion Helper
     }
 }

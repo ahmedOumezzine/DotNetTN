@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
-    public class InsertBuilder 
+    public class InsertBuilder
     {
-        #region  Init
+        #region Init
+
         public InsertBuilder()
         {
             this.sql = new StringBuilder();
@@ -19,9 +19,10 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             this.DbColumnInfoList = new List<DbColumnInfo>();
         }
 
-        #endregion
+        #endregion Init
 
         #region Common Properties
+
         public SqlClient Context { get; set; }
         public ISqlBuilder Builder { get; set; }
 
@@ -32,30 +33,32 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         public bool IsNoInsertNull { get; set; }
         public bool IsReturnIdentity { get; set; }
         public EntityInfo EntityInfo { get; set; }
-        #endregion
+
+        #endregion Common Properties
 
         #region SqlTemplate
+
         public virtual string SqlTemplate
         {
             get
             {
                 if (IsReturnIdentity)
                 {
-                    return @"INSERT INTO {0} 
+                    return @"INSERT INTO {0}
            ({1})
      VALUES
            ({2}) ;SELECT SCOPE_IDENTITY();";
                 }
                 else
                 {
-                    return @"INSERT INTO {0} 
+                    return @"INSERT INTO {0}
            ({1})
      VALUES
            ({2}) ;";
-
                 }
             }
         }
+
         public virtual string SqlTemplateBatch
         {
             get
@@ -63,6 +66,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "INSERT {0} ({1})";
             }
         }
+
         public virtual string SqlTemplateBatchSelect
         {
             get
@@ -70,6 +74,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "{0} AS {1}";
             }
         }
+
         public virtual string SqlTemplateBatchUnion
         {
             get
@@ -78,13 +83,14 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
         }
 
-        #endregion
+        #endregion SqlTemplate
 
         #region Methods
+
         public virtual void Clear()
         {
-
         }
+
         public virtual string GetTableNameString
         {
             get
@@ -141,6 +147,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return batchInsetrSql.ToString();
             }
         }
+
         public virtual object FormatValue(object value)
         {
             if (value == null)
@@ -177,6 +184,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 }
             }
         }
-        #endregion
+
+        #endregion Methods
     }
 }

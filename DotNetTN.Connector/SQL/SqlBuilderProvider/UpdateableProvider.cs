@@ -8,7 +8,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -28,27 +27,27 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         private bool IsOffIdentity { get; set; }
         public MappingTableList OldMappingTableList { get; set; }
         public bool IsAs { get; set; }
+
         public int ExecuteCommand()
         {
             PreToSql();
-            string sql = UpdateBuilder.ToSqlString();         
-          //  Check.Exception(UpdateBuilder.WhereValues.IsNullOrEmpty() && GetPrimaryKeys().IsNullOrEmpty(), "You cannot have no primary key and no conditions");
+            string sql = UpdateBuilder.ToSqlString();
+            //  Check.Exception(UpdateBuilder.WhereValues.IsNullOrEmpty() && GetPrimaryKeys().IsNullOrEmpty(), "You cannot have no primary key and no conditions");
             return this.Ado.ExecuteCommand(sql, UpdateBuilder.Parameters == null ? null : UpdateBuilder.Parameters.ToArray());
         }
-     
-  
+
         private void PreToSql()
         {
             UpdateBuilder.PrimaryKeys = GetPrimaryKeys();
-           
-                foreach (var item in this.UpdateBuilder.DbColumnInfoList)
-                {
-                    if (this.UpdateBuilder.Parameters == null) this.UpdateBuilder.Parameters = new List<Parameter>();
-                    this.UpdateBuilder.Parameters.Add(new Parameter(this.SqlBuilder.SqlParameterKeyWord + item.DbColumnName, item.Value, item.PropertyType));
-                }
-            
+
+            foreach (var item in this.UpdateBuilder.DbColumnInfoList)
+            {
+                if (this.UpdateBuilder.Parameters == null) this.UpdateBuilder.Parameters = new List<Parameter>();
+                this.UpdateBuilder.Parameters.Add(new Parameter(this.SqlBuilder.SqlParameterKeyWord + item.DbColumnName, item.Value, item.PropertyType));
+            }
 
             #region Identities
+
             List<string> identities = GetIdentityKeys();
             if (identities != null && identities.Any())
             {
@@ -61,7 +60,9 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                     }
                 });
             }
-            #endregion
+
+            #endregion Identities
+
             List<string> primaryKey = GetPrimaryKeys();
             if (primaryKey != null && primaryKey.Count > 0)
             {
@@ -79,6 +80,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 this.UpdateBuilder.Parameters.RemoveAll(it => this.UpdateBuilder.SetValues.Any(v => (SqlBuilder.SqlParameterKeyWord + SqlBuilder.GetNoTranslationColumnName(v.Key)) == it.ParameterName));
             }
         }
+
         internal void Init()
         {
             this.UpdateBuilder.TableName = EntityInfo.EntityName;
@@ -90,29 +92,28 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                     this.UpdateBuilder.TableName = mappingInfo.DbTableName;
                 }
             }
-          //  Check.Exception(UpdateObjs == null || UpdateObjs.Count() == 0, "UpdateObjs is null");
+            //  Check.Exception(UpdateObjs == null || UpdateObjs.Count() == 0, "UpdateObjs is null");
             int i = 0;
-           
-                List<DbColumnInfo> updateItem = new List<DbColumnInfo>();
-                foreach (var column in EntityInfo.Columns)
+
+            List<DbColumnInfo> updateItem = new List<DbColumnInfo>();
+            foreach (var column in EntityInfo.Columns)
+            {
+                var columnInfo = new DbColumnInfo()
                 {
-                    var columnInfo = new DbColumnInfo()
-                    {
-                        Value = column.PropertyInfo.GetValue(UpdateObjs, null),
-                        DbColumnName = GetDbColumnName(column.PropertyName),
-                        PropertyName = column.PropertyName,
-                        PropertyType = Extensions.GetUnderType(column.PropertyInfo),
-                        TableId = i
-                    };
-                    if (columnInfo.PropertyType.IsEnum())
-                    {
-                        columnInfo.Value = Convert.ToInt64(columnInfo.Value);
-                    }
-                    updateItem.Add(columnInfo);
+                    Value = column.PropertyInfo.GetValue(UpdateObjs, null),
+                    DbColumnName = GetDbColumnName(column.PropertyName),
+                    PropertyName = column.PropertyName,
+                    PropertyType = Extensions.GetUnderType(column.PropertyInfo),
+                    TableId = i
+                };
+                if (columnInfo.PropertyType.IsEnum())
+                {
+                    columnInfo.Value = Convert.ToInt64(columnInfo.Value);
                 }
-                this.UpdateBuilder.DbColumnInfoList.AddRange(updateItem);
-                ++i;
-           
+                updateItem.Add(columnInfo);
+            }
+            this.UpdateBuilder.DbColumnInfoList.AddRange(updateItem);
+            ++i;
         }
 
         private string GetDbColumnName(string entityName)
@@ -132,20 +133,15 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
         }
 
-
-
         private List<string> GetIdentityKeys()
         {
             return this.EntityInfo.Columns.Where(it => it.IsIdentity).Select(it => it.DbColumnName).ToList();
-
         }
 
         private List<string> GetPrimaryKeys()
         {
             return this.EntityInfo.Columns.Where(it => it.IsPrimarykey).Select(it => it.DbColumnName).ToList();
-
         }
-
 
         public IInsertable<T> UpdateColumns(Func<string, bool> updateColumMethod)
         {
@@ -161,8 +157,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             this.UpdateBuilder.DbColumnInfoList = this.UpdateBuilder.DbColumnInfoList.Where(it => updateColumMethod(it.PropertyName) || it.IsPrimarykey || it.IsIdentity).ToList();
             return this;
         }
-
-  
 
         public IInsertable<T> Where(Expression<Func<T, object>> expression)
         {
@@ -259,8 +253,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return this;
         }
 
-
-
         private PropertyInfo GetPropertyInfo<TSource>(Expression<Func<TSource, object>> propertyLambda)
         {
             Type type = typeof(TSource);
@@ -269,7 +261,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 throw new ArgumentException(string.Format(
                     "Expression '{0}' refers to a method, not a property.",
                     propertyLambda.ToString()));
-
 
             PropertyInfo propInfo = member.Member as PropertyInfo;
             if (propInfo == null)
@@ -286,7 +277,5 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
             return propInfo;
         }
-
-      
     }
 }

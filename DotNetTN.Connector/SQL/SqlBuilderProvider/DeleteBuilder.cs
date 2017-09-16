@@ -1,27 +1,29 @@
 ﻿using DotNetTN.Connector.SQL.Common;
 using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.Interface;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
-    public class DeleteBuilder 
+    public class DeleteBuilder
     {
         #region Fields
+
         private List<string> _WhereInfos;
-        #endregion
+
+        #endregion Fields
 
         #region Common Properties
+
         public EntityInfo EntityInfo { get; set; }
         public SqlClient Context { get; set; }
-         public List<Parameter> Parameters { get; set; }
+        public List<Parameter> Parameters { get; set; }
         public StringBuilder sql { get; set; }
         public ISqlBuilder Builder { get; set; }
         public string TableWithString { get; set; }
+
         public virtual List<string> WhereInfos
         {
             get
@@ -31,11 +33,14 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             set { _WhereInfos = value; }
         }
+
         public virtual List<object> BigDataInValues { get; set; }
         public virtual string BigDataFiled { get; set; }
-        #endregion
+
+        #endregion Common Properties
 
         #region Sql Template
+
         public virtual string SqlTemplate
         {
             get
@@ -43,6 +48,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "DELETE FROM {0}{1}";
             }
         }
+
         public virtual string WhereInTemplate
         {
             get
@@ -50,6 +56,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "{0} IN ({1})";
             }
         }
+
         public string WhereInOrTemplate
         {
             get
@@ -57,6 +64,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "OR";
             }
         }
+
         public string WhereInAndTemplate
         {
             get
@@ -64,6 +72,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "AND";
             }
         }
+
         public string WhereInEqualTemplate
         {
             get
@@ -71,6 +80,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "[{0}]=N'{1}'";
             }
         }
+
         public string WhereInAreaTemplate
         {
             get
@@ -78,9 +88,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "({0})";
             }
         }
-        #endregion
+
+        #endregion Sql Template
 
         #region Get Sql
+
         public virtual string GetTableNameString
         {
             get
@@ -94,6 +106,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return result;
             }
         }
+
         public virtual string GetWhereString
         {
             get
@@ -112,12 +125,14 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
         }
 
-        #endregion
+        #endregion Get Sql
 
         #region Public methods
+
         public virtual void Clear()
         {
         }
+
         public virtual string ToSqlString()
         {
             if (this.BigDataInValues.IsNullOrEmpty())
@@ -144,7 +159,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return batchDeleteSql.ToString();
             }
         }
-     
-        #endregion
+
+        #endregion Public methods
     }
 }

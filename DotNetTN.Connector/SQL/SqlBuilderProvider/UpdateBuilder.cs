@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
-    public class UpdateBuilder 
+    public class UpdateBuilder
     {
         public virtual List<object> BigDataInValues { get; set; }
         public virtual string BigDataFiled { get; set; }
+
         public string WhereInOrTemplate
         {
             get
@@ -21,6 +21,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "OR";
             }
         }
+
         public string WhereInAreaTemplate
         {
             get
@@ -28,6 +29,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "({0})";
             }
         }
+
         public string WhereInAndTemplate
         {
             get
@@ -35,6 +37,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "AND";
             }
         }
+
         public string WhereInEqualTemplate
         {
             get
@@ -44,8 +47,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         }
 
         #region Fields
+
         private List<string> _WhereInfos;
-        #endregion
+
+        #endregion Fields
+
         public virtual List<string> WhereInfos
         {
             get
@@ -55,6 +61,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
             set { _WhereInfos = value; }
         }
+
         public virtual string WhereInTemplate
         {
             get
@@ -71,6 +78,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             this.WhereValues = new List<string>();
             this.Parameters = new List<Parameter>();
         }
+
         public SqlClient Context { get; set; }
         public ILambdaExpressions LambdaExpressions { get; set; }
         public ISqlBuilder Builder { get; set; }
@@ -91,7 +99,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             {
                 return @"UPDATE {0} SET
            {1} {2}";
-
             }
         }
 
@@ -122,6 +129,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return "{0} AS {1}";
             }
         }
+
         public virtual string SqlTemplateBatchSelect
         {
             get
@@ -140,8 +148,8 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         public virtual void Clear()
         {
-
         }
+
         public virtual string GetTableNameString
         {
             get
@@ -155,6 +163,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 return result;
             }
         }
+
         public virtual string GetTableNameStringNoWith
         {
             get
@@ -164,7 +173,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             }
         }
 
-      
         public virtual string ToSqlString()
         {
             if (IsNoUpdateNull)
@@ -185,7 +193,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         protected virtual string TomultipleSqlString(List<IGrouping<int, DbColumnInfo>> groupList)
         {
-         //   Check.Exception(PrimaryKeys == null || PrimaryKeys.Count == 0, " Update List<T> need Primary key");
+            //   Check.Exception(PrimaryKeys == null || PrimaryKeys.Count == 0, " Update List<T> need Primary key");
             int pageSize = 200;
             int pageIndex = 1;
             int totalRecord = groupList.Count;
@@ -296,7 +304,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             var reval = resolveExpress.Result;
             return reval;
         }
-
 
         public virtual object FormatValue(object value)
         {
