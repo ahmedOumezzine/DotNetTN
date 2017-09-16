@@ -139,6 +139,16 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             throw new NotImplementedException();
         }
 
+        public IInsertable<T> Where(Expression<Func<T, string>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInsertable<T> Where(Expression<Func<T, object>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
         private List<string> GetIdentityKeys()
         {
             return this.EntityInfo.Columns.Where(it => it.IsIdentity).Select(it => it.DbColumnName).ToList();

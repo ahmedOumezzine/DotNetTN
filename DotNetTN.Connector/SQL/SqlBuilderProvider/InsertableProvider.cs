@@ -183,6 +183,16 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             throw new NotImplementedException();
         }
 
+        public IInsertable<T> Where(Expression<Func<T, string>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInsertable<T> Where(Expression<Func<T, object>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

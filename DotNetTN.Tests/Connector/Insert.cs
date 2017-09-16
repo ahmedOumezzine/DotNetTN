@@ -25,11 +25,10 @@ namespace DotNetTN.Tests.Connector
         public void update()
         {
             var db = GetInstance();
-                        var updateObj = new Student() { Id = 1, Name = "ssssssssssssssssss", SchoolId = 0, CreateTime = Convert.ToDateTime("2017-05-21 09:56:12.610") };
+                        var updateObj = new Student() { Id = 4, Name = "demo", SchoolId = 11, CreateTime =DateTime.Now };
 
             //Insert reutrn Insert Count
-            var t3_1 = db.Updateable(updateObj).UpdateColumns(it => it == "Name" || it == "SchoolId")
-                 .Where(it => it.Id == 1).ExecuteCommand();
+            var t3_1 = db.Updateable(updateObj).ExecuteCommand();
 
         }
 

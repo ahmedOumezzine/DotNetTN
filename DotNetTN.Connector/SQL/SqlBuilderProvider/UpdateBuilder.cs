@@ -12,6 +12,57 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
     public class UpdateBuilder 
     {
+        public virtual List<object> BigDataInValues { get; set; }
+        public virtual string BigDataFiled { get; set; }
+        public string WhereInOrTemplate
+        {
+            get
+            {
+                return "OR";
+            }
+        }
+        public string WhereInAreaTemplate
+        {
+            get
+            {
+                return "({0})";
+            }
+        }
+        public string WhereInAndTemplate
+        {
+            get
+            {
+                return "AND";
+            }
+        }
+        public string WhereInEqualTemplate
+        {
+            get
+            {
+                return "[{0}]=N'{1}'";
+            }
+        }
+
+        #region Fields
+        private List<string> _WhereInfos;
+        #endregion
+        public virtual List<string> WhereInfos
+        {
+            get
+            {
+                _WhereInfos = Extensions.IsNullReturnNew(_WhereInfos);
+                return _WhereInfos;
+            }
+            set { _WhereInfos = value; }
+        }
+        public virtual string WhereInTemplate
+        {
+            get
+            {
+                return "{0} IN ({1})";
+            }
+        }
+
         public UpdateBuilder()
         {
             this.sql = new StringBuilder();
