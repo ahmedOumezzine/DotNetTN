@@ -41,14 +41,7 @@ namespace DotNetTN.Connector.MySql.ExpressionContext
         public MappingTableList MappingTables { get; set; }
 
         
-        public void Clear()
-        {
-           
-        }
-        public void Resolve(Expression expression, ResolveExpressType resolveType)
-        {
-           
-        }
+      
     }
     public class MySqlMethod : DefaultDbMethod, IDbMethods
     {

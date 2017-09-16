@@ -10,7 +10,12 @@ using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.SQL.ExpressionsToSql
 {
-    public class ExpressionContext
+    public class ExpResolveAccessory
+    {
+        protected List<Parameter> _Parameters;
+        protected ExpressionResult _Result;
+    }
+    public class ExpressionContext : ExpResolveAccessory
     {
         #region Fields
         private bool _IsSingle = true;
