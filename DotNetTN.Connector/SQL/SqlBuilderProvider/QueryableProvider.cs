@@ -25,7 +25,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         public SqlClient Context { get; set; }
         public IAdo Db { get { return Context.Ado; } }
 
-        // public IDbBind Bind { get { return this.Db.DbBind; } }
+        public IDbBind Bind { get { return this.Db.DbBind; } }
         public ISqlBuilder SqlBuilder { get; set; }
 
         public MappingTableList OldMappingTableList { get; set; }
@@ -725,9 +725,15 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             var entityType = typeof(TResult);
             using (var dataReader = this.Db.GetDataReader(sqlObj.Key, sqlObj.Value.ToArray()))
             {
-                result = this.Context.Utilities.DataReaderToExpandoObjectList(dataReader) as List<TResult>;
+                if (typeof(TResult) == typeof(ExpandoObject))
+                {
+                    return this.Context.Utilities.DataReaderToExpandoObjectList(dataReader) as List<TResult>;
+                }
+                else
+                {
+                    return this.Bind.DataReaderToList<TResult>(entityType, dataReader, QueryBuilder.SelectCacheKey);
+                }
             }
-            return result;
         }
 
         protected void _InQueryable(Expression<Func<T, object>> expression, KeyValuePair<string, List<Parameter>> sqlObj)

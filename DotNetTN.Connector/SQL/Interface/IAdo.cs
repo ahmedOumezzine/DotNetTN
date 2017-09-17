@@ -9,6 +9,8 @@ namespace DotNetTN.Connector.SQL.Interface
 {
     public partial interface IAdo
     {
+        IDbBind DbBind { get; }
+
         string SqlParameterKeyWord { get; }
         IDbConnection Connection { get; set; }
         IDbTransaction Transaction { get; set; }

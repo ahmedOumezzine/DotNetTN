@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="DotNetTNConnector.cs" />
     <Compile Include="MySql\Builder\MySqlBuilder.cs" />
+    <Compile Include="MySql\DbBind\MySqlDbBind.cs" />
     <Compile Include="MySql\DeleteBuilder\MySqlDeleteBuilder.cs" />
     <Compile Include="MySql\ExpressionContext\MySqlExpressionContext.cs" />
     <Compile Include="MySql\InsertBuilder\MySqlInsertBuilder.cs" />
@@ -117,8 +118,11 @@
     <Compile Include="SQL\Mapping\MappingAttribute.cs" />
     <Compile Include="SQL\Mapping\MappingColumn.cs" />
     <Compile Include="SQL\Mapping\MappingTable.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\DbBindProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\DeleteableProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\DeleteBuilder.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\IDataReaderEntityBuilder.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\IDataRecordExtensions.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertableProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\QueryableProvider.cs" />

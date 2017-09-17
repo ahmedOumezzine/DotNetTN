@@ -153,4 +153,4 @@ namespace DotNetTN.Connector.SQL.Common
     }
 }
 
-// DotNetTN.Connector.MySql.QueryBuilder.MySqlQueryBuilder
+// DotNetTN.Connector.MySql.DbBind.MySqlDbBind

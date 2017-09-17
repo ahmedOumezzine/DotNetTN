@@ -7,6 +7,20 @@ namespace DotNetTN.Connector.SQL.Common
 {
     public static class Extensions
     {
+        internal static Type GetUnderType(Type oldType)
+        {
+            Type type = Nullable.GetUnderlyingType(oldType);
+            return type == null ? oldType : type;
+        }
+
+        internal static Type GetUnderType(PropertyInfo propertyInfo, ref bool isNullable)
+        {
+            Type unType = Nullable.GetUnderlyingType(propertyInfo.PropertyType);
+            isNullable = unType != null;
+            unType = unType ?? propertyInfo.PropertyType;
+            return unType;
+        }
+
         public static bool IsValuable(this object thisValue)
         {
             if (thisValue == null || thisValue == DBNull.Value) return false;
@@ -172,12 +186,6 @@ namespace DotNetTN.Connector.SQL.Common
                     parameter.ParameterName = newName;
                 }
             }
-        }
-
-        internal static Type GetUnderType(Type oldType)
-        {
-            Type type = Nullable.GetUnderlyingType(oldType);
-            return type == null ? oldType : type;
         }
 
         internal static Type GetUnderType(PropertyInfo propertyInfo)
