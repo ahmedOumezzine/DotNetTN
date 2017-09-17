@@ -1,12 +1,8 @@
-﻿using DotNetTN.Connector.SQL;
-using DotNetTN.Connector.SQL.Common;
+﻿using DotNetTN.Connector.SQL.Common;
 using DotNetTN.Connector.SQL.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DotNetTN.Connector.MySql.QueryBuilder
 {

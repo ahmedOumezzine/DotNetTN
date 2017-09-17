@@ -1,15 +1,10 @@
 ﻿using DotNetTN.Connector.SQL.Common;
 using DotNetTN.Connector.SQL.Entities;
-using DotNetTN.Connector.SQL.Interface;
+using DotNetTN.Connector.SQL.SqlBuilderProvider;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using DotNetTN.Connector.SQL;
 using System.Data;
-using DotNetTN.Connector.SQL.SqlBuilderProvider;
+using System.Linq;
 
 namespace DotNetTN.Connector.MySql.DbBind
 {

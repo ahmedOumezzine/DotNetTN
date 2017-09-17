@@ -51,8 +51,8 @@ namespace DotNetTN.Tests.Connector.MysqlTest
         [TestMethod]
         public void GetAllWithParam()
         {
-            //var data2 = DotNetTNConnector.GetList<Student>(it => it.Id == 1);
-            //Console.Write(data2);
+            var data2 = DotNetTNConnector.GetList<Student>(it => it.Id == 1);
+            Console.Write(data2);
         }
     }
 }

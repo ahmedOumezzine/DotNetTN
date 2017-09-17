@@ -8,8 +8,7 @@ using System.Data;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -723,17 +722,39 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             var sqlObj = this.ToSql();
             var isComplexModel = QueryBuilder.IsComplexModel(sqlObj.Key);
             var entityType = typeof(TResult);
-            using (var dataReader = this.Db.GetDataReader(sqlObj.Key, sqlObj.Value.ToArray()))
+            var dt = this.Db.GetDataTable(sqlObj.Key, sqlObj.Value.ToArray());
+            List<TResult> list = ConvertDataTable<TResult>(dt);
+
+            return list;
+        }
+
+        private static List<T> ConvertDataTable<T>(DataTable dt)
+        {
+            List<T> data = new List<T>();
+            foreach (DataRow row in dt.Rows)
             {
-                if (typeof(TResult) == typeof(ExpandoObject))
+                T item = GetItem<T>(row);
+                data.Add(item);
+            }
+            return data;
+        }
+
+        private static T GetItem<T>(DataRow dr)
+        {
+            Type temp = typeof(T);
+            T obj = Activator.CreateInstance<T>();
+
+            foreach (DataColumn column in dr.Table.Columns)
+            {
+                foreach (PropertyInfo pro in temp.GetProperties())
                 {
-                    return this.Context.Utilities.DataReaderToExpandoObjectList(dataReader) as List<TResult>;
-                }
-                else
-                {
-                    return this.Bind.DataReaderToList<TResult>(entityType, dataReader, QueryBuilder.SelectCacheKey);
+                    if (pro.Name == column.ColumnName)
+                        pro.SetValue(obj, dr[column.ColumnName], null);
+                    else
+                        continue;
                 }
             }
+            return obj;
         }
 
         protected void _InQueryable(Expression<Func<T, object>> expression, KeyValuePair<string, List<Parameter>> sqlObj)

@@ -326,6 +326,8 @@ namespace DotNetTN.Connector.SQL.AdoProvider
                 ExecuteBefore(sql, parameters);
                 IDbCommand sqlCommand = GetCommand(sql, parameters);
                 object scalar = sqlCommand.ExecuteScalar();
+                object dara2 = sqlCommand.ExecuteReader();
+
                 scalar = (scalar == null ? 0 : scalar);
                 if (this.IsClearParameters)
                     sqlCommand.Parameters.Clear();
