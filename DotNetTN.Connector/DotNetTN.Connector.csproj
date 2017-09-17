@@ -52,6 +52,8 @@
     <Compile Include="MySql\ExpressionContext\MySqlExpressionContext.cs" />
     <Compile Include="MySql\InsertBuilder\MySqlInsertBuilder.cs" />
     <Compile Include="MySql\MySqlProvider.cs" />
+    <Compile Include="MySql\Queryable\MySqlQueryable.cs" />
+    <Compile Include="MySql\QueryBuilder\MySqlQueryBuilder.cs" />
     <Compile Include="MySql\UpdateBuilder\MySqlUpdateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQL\Common\DateType.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="SQL\Interface\ILambdaExpressions.cs" />
     <Compile Include="SQL\Interface\IRewritableMethods.cs" />
     <Compile Include="SQL\Interface\ISqlBuilder.cs" />
+    <Compile Include="SQL\Interface\IQueryable.cs" />
     <Compile Include="SQL\Mapping\MappingAttribute.cs" />
     <Compile Include="SQL\Mapping\MappingColumn.cs" />
     <Compile Include="SQL\Mapping\MappingTable.cs" />
@@ -118,6 +121,7 @@
     <Compile Include="SQL\SqlBuilderProvider\DeleteBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertableProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\InsertBuilder.cs" />
+    <Compile Include="SQL\SqlBuilderProvider\QueryableProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\QueryBuilder.cs" />
     <Compile Include="SQL\SqlBuilderProvider\SqlBuilderProvider.cs" />
     <Compile Include="SQL\SqlBuilderProvider\SqlQueryBuilder.cs" />

@@ -48,6 +48,26 @@ namespace DotNetTN.Connector.SQL.Entities
             return reval;
         }
 
+        protected IQueryable<T> CreateQueryable<T>() where T : class, new()
+        {
+            IQueryable<T> result = InstanceFactory.GetQueryable<T>(this.CurrentConfig);
+            return CreateQueryable(result);
+        }
+
+        protected IQueryable<T> CreateQueryable<T>(IQueryable<T> result) where T : class, new()
+        {
+            var sqlBuilder = InstanceFactory.GetSqlbuilder(CurrentConfig);
+            result.Context = this.Context;
+            result.SqlBuilder = sqlBuilder;
+            result.SqlBuilder.QueryBuilder = InstanceFactory.GetQueryBuilder(CurrentConfig);
+            result.SqlBuilder.QueryBuilder.Builder = sqlBuilder;
+            result.SqlBuilder.Context = result.SqlBuilder.QueryBuilder.Context = this.Context;
+            result.SqlBuilder.QueryBuilder.EntityType = typeof(T);
+            result.SqlBuilder.QueryBuilder.EntityName = typeof(T).Name;
+            //result.SqlBuilder.QueryBuilder.LambdaExpressions = InstanceFactory.GetLambdaExpressions(CurrentConnectionConfig);
+            return result;
+        }
+
         protected DeleteableProvider<T> CreateDeleteable<T>() where T : class, new()
         {
             var reval = new DeleteableProvider<T>();

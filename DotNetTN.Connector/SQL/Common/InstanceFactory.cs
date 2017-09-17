@@ -3,6 +3,7 @@ using DotNetTN.Connector.SQL.Interface;
 using DotNetTN.Connector.SQL.SqlBuilderProvider;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace DotNetTN.Connector.SQL.Common
@@ -11,6 +12,37 @@ namespace DotNetTN.Connector.SQL.Common
     {
         private static Assembly assembly = Assembly.Load(UtilConstants.AssemblyName);
         private static Dictionary<string, Type> typeCache = new Dictionary<string, Type>();
+
+        public static QueryBuilder GetQueryBuilder(Config currentConnectionConfig)
+        {
+            if (currentConnectionConfig.DbType == DbType.SqlServer)
+            {
+                //    return new SqlServerQueryBuilder();
+            }
+            else
+            {
+                QueryBuilder result = CreateInstance<QueryBuilder>(GetClassName(currentConnectionConfig.DbType.ToString(), "QueryBuilder"));
+                return result;
+            }
+            return null;
+        }
+
+        public static Interface.IQueryable<T> GetQueryable<T>(Config currentConnectionConfig)
+        {
+            if (currentConnectionConfig.DbType == DbType.SqlServer)
+            {
+                //  return new SqlServerQueryable<T>();
+            }
+            else
+            {
+                string className = "Queryable";
+                className = GetClassName(currentConnectionConfig.DbType.ToString(), className);
+                Interface.IQueryable<T> result = CreateInstance<T, Interface.IQueryable<T>>(className);
+                return result;
+            }
+
+            return null;
+        }
 
         public static ILambdaExpressions GetLambdaExpressions(Config currentConnectionConfig)
         {
@@ -56,6 +88,35 @@ namespace DotNetTN.Connector.SQL.Common
             return result;
         }
 
+        private static Restult CreateInstance<T, Restult>(string className)
+        {
+            return CreateInstance<Restult>(className, typeof(T));
+        }
+
+        private static Restult CreateInstance<Restult>(string className, params Type[] types)
+        {
+            var cacheKey = className + string.Join(",", types.Select(it => it.FullName));
+            Type type;
+            if (typeCache.ContainsKey(cacheKey))
+            {
+                type = typeCache[cacheKey];
+            }
+            else
+            {
+                lock (typeCache)
+                {
+                    type = Type.GetType(className + "`" + types.Length, true).MakeGenericType(types);
+                    //  Check.ArgumentNullException(type, string.Format(ErrorMessage.ObjNotExist, className));
+                    if (!typeCache.ContainsKey(cacheKey))
+                    {
+                        typeCache.Add(cacheKey, type);
+                    }
+                }
+            }
+            var result = (Restult)Activator.CreateInstance(type, true);
+            return result;
+        }
+
         public static IAdo GetAdo(Config currentConnectionConfig)
         {
             IAdo result = CreateInstance<IAdo>(GetClassName(currentConnectionConfig.DbType.ToString(), "Provider"));
@@ -91,3 +152,5 @@ namespace DotNetTN.Connector.SQL.Common
         }
     }
 }
+
+// DotNetTN.Connector.MySql.QueryBuilder.MySqlQueryBuilder

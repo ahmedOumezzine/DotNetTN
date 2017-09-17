@@ -37,19 +37,22 @@ namespace DotNetTN.Tests.Connector.MysqlTest
         [TestMethod]
         public void Find()
         {
-            var student2 = DotNetTNConnector.GetById<Student>(1);
+            var student2 = DotNetTNConnector.GetById<Student>(2);
+            Console.Write(student2);
         }
 
         [TestMethod]
         public void GetAll()
         {
             var data = DotNetTNConnector.GetList<Student>();
+            Console.Write(data);
         }
 
         [TestMethod]
         public void GetAllWithParam()
         {
-            var data2 = DotNetTNConnector.GetList<Student>(it => it.Id == 1);
+            //var data2 = DotNetTNConnector.GetList<Student>(it => it.Id == 1);
+            //Console.Write(data2);
         }
     }
 }

@@ -20,12 +20,36 @@ namespace DotNetTN.Connector.SQL.Common
 
         public ExpandoObject DataReaderToExpandoObject(IDataReader reader)
         {
-            throw new NotImplementedException();
+            ExpandoObject result = new ExpandoObject();
+            var dic = ((IDictionary<string, object>)result);
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                try
+                {
+                    var addItem = reader.GetValue(i);
+                    if (addItem == DBNull.Value)
+                        addItem = null;
+                    dic.Add(reader.GetName(i), addItem);
+                }
+                catch
+                {
+                    dic.Add(reader.GetName(i), null);
+                }
+            }
+            return result;
         }
 
         public List<ExpandoObject> DataReaderToExpandoObjectList(IDataReader reader)
         {
-            throw new NotImplementedException();
+            List<ExpandoObject> result = new List<ExpandoObject>();
+            if (reader != null && !reader.IsClosed)
+            {
+                while (reader.Read())
+                {
+                    result.Add(DataReaderToExpandoObject(reader));
+                }
+            }
+            return result;
         }
 
         public dynamic DataTableToDynamic(DataTable table)

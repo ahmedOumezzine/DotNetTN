@@ -116,5 +116,11 @@ namespace DotNetTN.Connector.SQL
         {
             return base.CreateDeleteable<T>();
         }
+
+        public virtual IQueryable<T> Queryable<T>() where T : class, new()
+        {
+            var result = base.CreateQueryable<T>();
+            return result;
+        }
     }
 }

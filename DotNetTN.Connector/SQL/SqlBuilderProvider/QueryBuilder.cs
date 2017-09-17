@@ -447,17 +447,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 {
                     result += GetJoinValueString + UtilConstants.Space;
                 }
-                if (this.EasyJoinInfos.IsValuable())
-                {
-                    if (this.TableWithString.IsValuable())
-                    {
-                        result += "," + string.Join(",", this.EasyJoinInfos.Select(it => string.Format("{0} {1} {2} ", GetTableName(it.Value), it.Key, TableWithString)));
-                    }
-                    else
-                    {
-                        result += "," + string.Join(",", this.EasyJoinInfos.Select(it => string.Format("{0} {1} ", GetTableName(it.Value), it.Key)));
-                    }
-                }
+
                 return result;
             }
         }

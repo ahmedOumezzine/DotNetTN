@@ -24,20 +24,17 @@ namespace DotNetTN.Connector
 
         public T GetById<T>(dynamic id) where T : class, new()
         {
-            return null;
-            //  return Context.Queryable<T>().InSingle(id);
+            return Context.Queryable<T>().InSingle(id);
         }
 
         public List<T> GetList<T>() where T : class, new()
         {
-            return null;
-            // return Context.Queryable<T>().ToList();
+            return Context.Queryable<T>().ToList();
         }
 
         public List<T> GetList<T>(Expression<Func<T, bool>> whereExpression) where T : class, new()
         {
-            return null;
-            // return Context.Queryable<T>().Where(whereExpression).ToList();
+            return Context.Queryable<T>().Where(whereExpression).ToList();
         }
 
         public bool Insert<T>(T insertObj) where T : class, new()
