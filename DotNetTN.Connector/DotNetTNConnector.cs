@@ -8,7 +8,6 @@ namespace DotNetTN.Connector
     public class DotNetTNConnector
     {
         protected SqlClient Context { get; set; }
-        public SqlClient FullClient { get { return this.Context; } }
 
         private DotNetTNConnector()
         {

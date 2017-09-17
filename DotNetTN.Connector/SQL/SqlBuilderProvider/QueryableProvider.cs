@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 
 namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 {
@@ -119,8 +120,27 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         public virtual Interface.IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-            this._Where(expression);
+            var sql = this.CreateWhereClause(expression);
+
+            QueryBuilder.WhereInfos.Add(SqlBuilder.AppendWhereOrAnd(true, sql));
+
+          //  this._Where(expression);
+
             return this;
+        }
+
+        private string CreateWhereClause(Expression<Func<T, bool>> predicate)
+        {
+            StringBuilder p = new StringBuilder(predicate.Body.ToString());
+            var pName = predicate.Parameters.First();
+            p.Replace(pName.Name + ".", "");
+            p.Replace("==", "=");
+            p.Replace("AndAlso", "and");
+            p.Replace("OrElse", "or");
+            p.Replace("\"", "\'");
+            p.Replace("(", " ");
+            p.Replace(")", "");
+            return p.ToString();
         }
 
         public virtual Interface.IQueryable<T> Where(string whereString, object whereObj = null)
@@ -625,9 +645,6 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         protected void _Where(Expression expression)
         {
-            var isSingle = QueryBuilder.IsSingle();
-            var result = QueryBuilder.GetExpressionValue(expression, isSingle ? ResolveExpressType.WhereSingle : ResolveExpressType.WhereMultiple);
-            QueryBuilder.WhereInfos.Add(SqlBuilder.AppendWhereOrAnd(QueryBuilder.WhereInfos.IsNullOrEmpty(), result.GetResultString()));
         }
 
         protected Interface.IQueryable<T> _OrderBy(Expression expression, OrderByType type = OrderByType.Asc)
