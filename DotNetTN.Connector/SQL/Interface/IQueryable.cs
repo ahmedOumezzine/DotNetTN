@@ -19,6 +19,6 @@ namespace DotNetTN.Connector.SQL.Interface
 
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
 
-        IQueryable<T1> Select<T1>(string v);
+        IQueryable<T1> Select<T1>(string v); 
     }
 }
