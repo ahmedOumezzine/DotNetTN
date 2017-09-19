@@ -124,7 +124,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             string Left = ((MemberExpression)binaryExpression.Left).Member.Name;
             Expression right = binaryExpression.Right;//right part of the "==" of your predicate
             var objectMember = Expression.Convert(right, typeof(object));//convert to object, as we don't know what's in
-
+ 
             var getterLambda = Expression.Lambda<Func<object>>(objectMember);
 
             var getter = getterLambda.Compile();
@@ -132,7 +132,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
 
             var valueYouWant = getter();//here's the "x" or "y"
-            var sql = Left + " = " + valueYouWant;
+            var sql = Left + " = '" + valueYouWant+"'";
            // var sql = this.CreateWhereClause(expression);
 
             QueryBuilder.WhereInfos.Add(SqlBuilder.AppendWhereOrAnd(true, sql));
