@@ -40,6 +40,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EMAIL\AlternateViewCollection.cs" />
+    <Compile Include="EMAIL\Attachment.cs" />
+    <Compile Include="EMAIL\enum.cs" />
+    <Compile Include="EMAIL\HeaderDictionary.cs" />
+    <Compile Include="EMAIL\HeaderValue.cs" />
+    <Compile Include="EMAIL\IMailClient.cs" />
+    <Compile Include="EMAIL\ImapClient.cs" />
+    <Compile Include="EMAIL\Exception\ImapClientException.cs" />
+    <Compile Include="EMAIL\Exception\ImapClientExceptionEventArgs.cs" />
+    <Compile Include="EMAIL\Imap\Mailbox.cs" />
+    <Compile Include="EMAIL\Imap\MessageEventArgs.cs" />
+    <Compile Include="EMAIL\Imap\ModifiedUtf7Encoding.cs" />
+    <Compile Include="EMAIL\Imap\Namespaces.cs" />
+    <Compile Include="EMAIL\Imap\Quota.cs" />
+    <Compile Include="EMAIL\Imap\SearchCondition.cs" />
+    <Compile Include="EMAIL\MailMessage.cs" />
+    <Compile Include="EMAIL\ObjectWHeaders.cs" />
+    <Compile Include="EMAIL\Pop3Client.cs" />
+    <Compile Include="EMAIL\SafeDictionary.cs" />
+    <Compile Include="EMAIL\TextClient.cs" />
+    <Compile Include="EMAIL\Utilities.cs" />
+    <Compile Include="EMAIL\WarningEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
