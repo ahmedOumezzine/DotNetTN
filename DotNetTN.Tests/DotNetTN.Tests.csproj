@@ -47,12 +47,17 @@
     <Compile Include="Connector\MysqlTest\DotNetTNBase.cs" />
     <Compile Include="Connector\MysqlTest\QuerySimple.cs" />
     <Compile Include="Connector\Student.cs" />
+    <Compile Include="Documents\PDF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetTN.Connector\DotNetTN.Connector.csproj">
       <Project>{52AFD08A-11A9-4500-BD2F-B7BCEF7059AB}</Project>
       <Name>DotNetTN.Connector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNetTN.Document\DotNetTN.Documents.csproj">
+      <Project>{BAE3991A-0038-41B3-AA92-B9B7BC3309C5}</Project>
+      <Name>DotNetTN.Documents</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

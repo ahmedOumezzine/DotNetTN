@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Connector", "DotNe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.File", "DotNetTN.File\DotNetTN.File.csproj", "{5904B345-3FD0-45E3-8A02-E431E5AF4A40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Document", "DotNetTN.Document\DotNetTN.Document.csproj", "{BAE3991A-0038-41B3-AA92-B9B7BC3309C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Documents", "DotNetTN.Document\DotNetTN.Documents.csproj", "{BAE3991A-0038-41B3-AA92-B9B7BC3309C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.API", "DotNetTN.API\DotNetTN.API.csproj", "{BF3B0D5A-1904-4FBC-AC70-25BE803E9450}"
 EndProject
