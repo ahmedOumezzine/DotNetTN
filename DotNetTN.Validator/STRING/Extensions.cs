@@ -6,10 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using DotNetTN.Validator.Object;
+using DotNetTN.Common.Object;
 using System.Text.RegularExpressions;
 
-namespace DotNetTN.Validator.STRING
+namespace DotNetTN.Common.STRING
 {
     public static class Extensions
     {

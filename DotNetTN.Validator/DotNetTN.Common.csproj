@@ -7,8 +7,8 @@
     <ProjectGuid>{2ADE82DE-28B2-4125-AB63-E71BABED66CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotNetTN.Validator</RootNamespace>
-    <AssemblyName>DotNetTN.Validator</AssemblyName>
+    <RootNamespace>DotNetTN.Common</RootNamespace>
+    <AssemblyName>DotNetTN.Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

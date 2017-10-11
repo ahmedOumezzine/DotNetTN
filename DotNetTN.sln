@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN", "DotNetTN\DotNet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Google", "DotNetTN.Google\DotNetTN.Google.csproj", "{3BEF14E0-F1F6-4FCB-9E55-2C34FBB6748F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Validator", "DotNetTN.Validator\DotNetTN.Validator.csproj", "{2ADE82DE-28B2-4125-AB63-E71BABED66CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Common", "DotNetTN.Validator\DotNetTN.Common.csproj", "{2ADE82DE-28B2-4125-AB63-E71BABED66CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetTN.Connector", "DotNetTN.Connector\DotNetTN.Connector.csproj", "{52AFD08A-11A9-4500-BD2F-B7BCEF7059AB}"
 EndProject

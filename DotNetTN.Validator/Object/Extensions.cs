@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotNetTN.Validator.Object
+namespace DotNetTN.Common.Object
 {
     public static class Extensions
     {
