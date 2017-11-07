@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetTN.API">
+      <HintPath>..\..\..\repos\DotNetTN\DotNetTN.API\bin\Debug\DotNetTN.API.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,6 +51,8 @@
     <Compile Include="Connector\MysqlTest\QuerySimple.cs" />
     <Compile Include="Connector\Student.cs" />
     <Compile Include="Documents\PDF.cs" />
+    <Compile Include="Emails\EmailImapTest.cs" />
+    <Compile Include="Emails\EmailPop3Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
