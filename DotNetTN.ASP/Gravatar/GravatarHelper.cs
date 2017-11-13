@@ -10,7 +10,7 @@ namespace DotNetTN.ASP.Gravatar
 {
     public static class GravatarHelper
     {
-        public static MvcHtmlString GravatarImage(this HtmlHelper htmlHelper, string emailAddress, GravatarOptions options = null)
+        public static MvcHtmlString GravatarImage(this HtmlHelper htmlHelper, string emailAddress, string Class, GravatarOptions options = null)
         {
             if (options == null)
                 options = GravatarOptions.GetDefaults();
@@ -27,6 +27,8 @@ namespace DotNetTN.ASP.Gravatar
                     "&r=" + options.RatingLevel
                     )
                 );
+
+            imgTag.Attributes.Add("class", Class);
 
             return new MvcHtmlString(imgTag.ToString(TagRenderMode.SelfClosing));
         }
