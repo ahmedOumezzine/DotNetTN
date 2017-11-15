@@ -95,7 +95,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         {
             get
             {
-                var result = Builder.GetTranslationTableName(EntityInfo.EntityName);
+                var result = Builder.GetTranslationTableName(EntityInfo.DbTableName);
                 result += UtilConstants.Space;
 
                 if (this.TableWithString.IsValuable())

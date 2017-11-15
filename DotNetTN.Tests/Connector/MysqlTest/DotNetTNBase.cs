@@ -5,7 +5,7 @@ namespace DotNetTN.Tests.Connector.MysqlTest
 {
     public class DotNetTNBase
     {
-        public static string ConnectionString = "server=localhost;Database=Dotnetdb;Uid=root;Pwd=";
+        public static string ConnectionString = "server=localhost;Database=aotn;Uid=root;Pwd=";
 
         public static SqlClient GetInstance()
         {

@@ -55,7 +55,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 var columnInfo = new DbColumnInfo()
                 {
                     Value = column.PropertyInfo.GetValue(InsertObjs, null),
-                    DbColumnName = GetDbColumnName(column.PropertyName),
+                    DbColumnName = GetDbColumnName(column.DbColumnName),
                     PropertyName = column.PropertyName,
                     PropertyType = Extensions.GetUnderType(column.PropertyInfo),
                     TableId = i
