@@ -83,7 +83,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         internal void Init()
         {
-            this.UpdateBuilder.TableName = EntityInfo.EntityName;
+            this.UpdateBuilder.TableName = EntityInfo.DbTableName;
             if (IsMappingTable)
             {
                 var mappingInfo = this.Context.MappingTables.SingleOrDefault(it => it.EntityName == EntityInfo.EntityName);
@@ -101,7 +101,7 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
                 var columnInfo = new DbColumnInfo()
                 {
                     Value = column.PropertyInfo.GetValue(UpdateObjs, null),
-                    DbColumnName = GetDbColumnName(column.PropertyName),
+                    DbColumnName = GetDbColumnName(column.DbColumnName),
                     PropertyName = column.PropertyName,
                     PropertyType = Extensions.GetUnderType(column.PropertyInfo),
                     TableId = i

@@ -1,8 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DotNetTN.Connector.SQL.Mapping;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace DotNetTN.Tests.Connector.MysqlTest
 {
+    [Table("resume")]
+    public class resumeItem
+    {
+        [Column(IsPrimaryKey = true, IsIdentity = true, ColumnName = "resumeID")]
+        public int ID { get; set; }
+
+        [Column(ColumnName = "fullName")]
+        public string Name { get; set; }
+
+        [Column(ColumnName = "fullPrenom")]
+        public string Prenom { get; set; }
+
+        [Column(ColumnName = "DatedeNaissance")]
+        public DateTime? Date { get; set; }
+
+        [Column(ColumnName = "Originaire")]
+        public string Originaire { get; set; }
+
+        [Column(ColumnName = "EtatCivil")]
+        public string EtatCivil { get; set; }
+    }
+
     [TestClass]
     public class QuerySimple : DotNetTNBase
     {
@@ -18,8 +41,10 @@ namespace DotNetTN.Tests.Connector.MysqlTest
         [TestMethod]
         public void Update()
         {
-            var updateObj = new Student() { Id = 4, Name = "demo", SchoolId = 11, CreateTime = DateTime.Now };
-            DotNetTNConnector.Update(updateObj);
+            //       var updateObj = new Student() { Id = 4, Name = "demo", SchoolId = 11, CreateTime = DateTime.Now };
+            var resume = DotNetTNConnector.GetById<resumeItem>(1);
+            resume.Name = "bouhmid";
+            DotNetTNConnector.Update(resume);
         }
 
         [TestMethod]
@@ -31,13 +56,13 @@ namespace DotNetTN.Tests.Connector.MysqlTest
         [TestMethod]
         public void DeleteByID()
         {
-            DotNetTNConnector.DeleteById<Student>(1);
+            DotNetTNConnector.DeleteById<resumeItem>(6);
         }
 
         [TestMethod]
         public void Find()
         {
-            var student2 = DotNetTNConnector.GetById<Student>(2);
+            var student2 = DotNetTNConnector.GetById<resumeItem>(1);
             Console.Write(student2);
         }
 

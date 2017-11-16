@@ -124,20 +124,18 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             string Left = ((MemberExpression)binaryExpression.Left).Member.Name;
             Expression right = binaryExpression.Right;//right part of the "==" of your predicate
             var objectMember = Expression.Convert(right, typeof(object));//convert to object, as we don't know what's in
- 
+
             var getterLambda = Expression.Lambda<Func<object>>(objectMember);
 
             var getter = getterLambda.Compile();
 
-
-
             var valueYouWant = getter();//here's the "x" or "y"
-            var sql = Left + " = '" + valueYouWant+"'";
-           // var sql = this.CreateWhereClause(expression);
+            var sql = Left + " = '" + valueYouWant + "'";
+            // var sql = this.CreateWhereClause(expression);
 
             QueryBuilder.WhereInfos.Add(SqlBuilder.AppendWhereOrAnd(true, sql));
 
-          //  this._Where(expression);
+            //  this._Where(expression);
 
             return this;
         }
@@ -778,7 +776,8 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             {
                 foreach (PropertyInfo pro in temp.GetProperties())
                 {
-                    if (pro.Name == column.ColumnName)
+                    var ColumnName = pro.CustomAttributes.ElementAt(0).NamedArguments.FirstOrDefault(it => it.MemberName == "ColumnName");
+                    if (ColumnName.TypedValue.Value.ToString() == column.ColumnName)
                         pro.SetValue(obj, dr[column.ColumnName], null);
                     else
                         continue;

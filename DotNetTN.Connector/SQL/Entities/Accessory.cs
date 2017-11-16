@@ -62,9 +62,10 @@ namespace DotNetTN.Connector.SQL.Entities
             result.SqlBuilder.QueryBuilder = InstanceFactory.GetQueryBuilder(CurrentConfig);
             result.SqlBuilder.QueryBuilder.Builder = sqlBuilder;
             result.SqlBuilder.Context = result.SqlBuilder.QueryBuilder.Context = this.Context;
+            var EntityInfo = this.Context.EntityMaintenance.GetEntityInfo<T>();
             result.SqlBuilder.QueryBuilder.EntityType = typeof(T);
-            result.SqlBuilder.QueryBuilder.EntityName = typeof(T).Name;
-            //result.SqlBuilder.QueryBuilder.LambdaExpressions = InstanceFactory.GetLambdaExpressions(CurrentConnectionConfig);
+            result.SqlBuilder.QueryBuilder.EntityName = EntityInfo.DbTableName;
+            result.SqlBuilder.QueryBuilder.LambdaExpressions = InstanceFactory.GetLambdaExpressions(CurrentConfig);
             return result;
         }
 
