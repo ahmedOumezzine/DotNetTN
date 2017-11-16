@@ -50,7 +50,7 @@ namespace DotNetTN.Tests.Connector.MysqlTest
         [TestMethod]
         public void Delete()
         {
-            DotNetTNConnector.Delete(new Student() { Id = 4 });
+            DotNetTNConnector.Delete(new resumeItem() { ID = 4 });
         }
 
         [TestMethod]
