@@ -15,4 +15,8 @@ namespace DotNetTN.Connector.MySql.Queryable
             return this;
         }
     }
+
+    public class MySqlQueryable<T, T2> : QueryableProvider<T, T2>
+    {
+    }
 }

@@ -3,6 +3,38 @@ using System;
 
 namespace DotNetTN.Tests.Connector
 {
+    [Table("School")]
+    public class School
+    {
+        [Column(IsPrimaryKey = true, IsIdentity = true, ColumnName = "resumeID")]
+        public int Id { get; set; }
+
+        [Column(ColumnName = "fullName")]
+        public string Name { get; set; }
+    }
+
+    [Table("resume")]
+    public class resumeItem
+    {
+        [Column(IsPrimaryKey = true, IsIdentity = true, ColumnName = "resumeID")]
+        public int ID { get; set; }
+
+        [Column(ColumnName = "fullName")]
+        public string Name { get; set; }
+
+        [Column(ColumnName = "fullPrenom")]
+        public string Prenom { get; set; }
+
+        [Column(ColumnName = "DatedeNaissance")]
+        public DateTime? Date { get; set; }
+
+        [Column(ColumnName = "Originaire")]
+        public string Originaire { get; set; }
+
+        [Column(ColumnName = "EtatCivil")]
+        public string EtatCivil { get; set; }
+    }
+
     [Table("Studenttable")]
     public class Student
     {

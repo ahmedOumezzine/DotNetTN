@@ -1,6 +1,8 @@
 ﻿using DotNetTN.Connector.SQL;
+using DotNetTN.Connector.SQL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace DotNetTN.Connector
@@ -31,6 +33,11 @@ namespace DotNetTN.Connector
         public List<T> GetList<T>(Expression<Func<T, bool>> whereExpression) where T : class, new()
         {
             return Context.Queryable<T>().Where(whereExpression).ToList();
+        }
+
+        public List<T> join<T, T2>(JoinType JoinType, Expression<Func<T, T2, bool>> joinExpression) where T : class, new()
+        {
+            return this.Context.Queryable<T, T2>(JoinType, joinExpression).ToListJOIN();
         }
 
         public bool Insert<T>(T insertObj) where T : class, new()

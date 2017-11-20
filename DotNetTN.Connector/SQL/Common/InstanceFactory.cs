@@ -44,6 +44,22 @@ namespace DotNetTN.Connector.SQL.Common
             return null;
         }
 
+        public static Interface.IQueryable<T, T2> GetQueryable<T, T2>(Config currentConnectionConfig)
+        {
+            if (currentConnectionConfig.DbType == DbType.SqlServer)
+            {
+                //                return new sql<T, T2>();
+            }
+            else
+            {
+                string className = "Queryable";
+                className = GetClassName(currentConnectionConfig.DbType.ToString(), className);
+                Interface.IQueryable<T, T2> result = CreateInstance<T, T2, Interface.IQueryable<T, T2>>(className);
+                return result;
+            }
+            return null;
+        }
+
         public static ILambdaExpressions GetLambdaExpressions(Config currentConnectionConfig)
         {
             if (currentConnectionConfig.DbType == DbType.SqlServer)
@@ -115,6 +131,11 @@ namespace DotNetTN.Connector.SQL.Common
             }
             var result = (Restult)Activator.CreateInstance(type, true);
             return result;
+        }
+
+        private static Restult CreateInstance<T, T2, Restult>(string className)
+        {
+            return CreateInstance<Restult>(className, typeof(T), typeof(T2));
         }
 
         public static IAdo GetAdo(Config currentConnectionConfig)

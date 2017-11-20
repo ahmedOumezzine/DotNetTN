@@ -2,6 +2,7 @@
 using DotNetTN.Connector.SQL.Entities;
 using DotNetTN.Connector.SQL.Interface;
 using System;
+using System.Linq.Expressions;
 
 namespace DotNetTN.Connector.SQL
 {
@@ -57,7 +58,7 @@ namespace DotNetTN.Connector.SQL
 
         #region Util Methods
 
-        [Obsolete("Use SqlSugarClient.Utilities")]
+        [Obsolete("Use SqlClient.Utilities")]
         public virtual IRewritableMethods RewritableMethods
         {
             get { return this.Utilities; }
@@ -79,7 +80,7 @@ namespace DotNetTN.Connector.SQL
 
         #region Entity Methods
 
-        [Obsolete("Use SqlSugarClient.EntityMaintenance")]
+        [Obsolete("Use .EntityMaintenance")]
         public virtual EntityMaintenance EntityProvider
         {
             get { return this.EntityMaintenance; }
@@ -121,6 +122,14 @@ namespace DotNetTN.Connector.SQL
         {
             var result = base.CreateQueryable<T>();
             return result;
+        }
+
+        public virtual IQueryable<T, T2> Queryable<T, T2>(JoinType JoinType, Expression<Func<T, T2, bool>> whereExpression) where T : class, new()
+        {
+            var types = new Type[] { typeof(T2) };
+            var queryable = InstanceFactory.GetQueryable<T, T2>(base.CurrentConfig);
+            base.CreateQueryJoin(whereExpression, JoinType, types, queryable);
+            return queryable;
         }
     }
 }

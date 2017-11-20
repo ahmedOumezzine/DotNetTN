@@ -4,6 +4,9 @@
     {
         Inner = 0,
         Left = 1,
-        Right = 2
+        leftWithoutIntersection = 11,
+        Right = 2,
+        RightWithoutIntersection = 22,
+        FULL = 3
     }
 }

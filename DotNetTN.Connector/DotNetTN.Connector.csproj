@@ -143,5 +143,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetTN.Validator\DotNetTN.Common.csproj">
+      <Project>{2ADE82DE-28B2-4125-AB63-E71BABED66CE}</Project>
+      <Name>DotNetTN.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

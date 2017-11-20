@@ -606,6 +606,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return _ToList<T>();
         }
 
+        public virtual List<T> ToListJOIN()
+        {
+            return ToListJOIN<T>();
+        }
+
         public virtual List<T> ToPageList(int pageIndex, int pageSize)
         {
             if (pageIndex == 0)
@@ -744,6 +749,16 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return this;
         }
 
+        protected List<TResult> ToListJOIN<TResult>()
+        {
+            List<TResult> result = null;
+            string sqlObj = QueryBuilder.GetjointuresSQL();
+            var dt = this.Db.GetDataTable(sqlObj, new object());
+            List<TResult> list = ConvertDataTable<TResult>(dt);
+
+            return list;
+        }
+
         protected List<TResult> _ToList<TResult>()
         {
             List<TResult> result = null;
@@ -804,4 +819,214 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         #endregion Private Methods
     }
+
+    #region T2
+
+    public partial class QueryableProvider<T, T2> : QueryableProvider<T>, IQueryable<T, T2>
+    {
+        #region Where
+
+        public new IQueryable<T, T2> Where(Expression<Func<T, bool>> expression)
+        {
+            _Where(expression);
+            return this;
+        }
+
+        public IQueryable<T, T2> Where(Expression<Func<T, T2, bool>> expression)
+        {
+            _Where(expression);
+            return this;
+        }
+
+        public new IQueryable<T, T2> WhereIF(bool isWhere, Expression<Func<T, bool>> expression)
+        {
+            if (isWhere)
+                _Where(expression);
+            return this;
+        }
+
+        public IQueryable<T, T2> WhereIF(bool isWhere, Expression<Func<T, T2, bool>> expression)
+        {
+            if (isWhere)
+                _Where(expression);
+            return this;
+        }
+
+        public new IQueryable<T, T2> Where(string whereString, object whereObj)
+        {
+            Where<T>(whereString, whereObj);
+            return this;
+        }
+
+        public new IQueryable<T, T2> WhereIF(bool isWhere, string whereString, object whereObj)
+        {
+            if (!isWhere) return this;
+            this.Where<T>(whereString, whereObj);
+            return this;
+        }
+
+        #endregion Where
+
+        #region Select
+
+        public Interface.IQueryable<TResult> Select<TResult>(Expression<Func<T, T2, TResult>> expression)
+        {
+            return _Select<TResult>(expression);
+        }
+
+        #endregion Select
+
+        #region Order
+
+        public IQueryable<T, T2> OrderBy(Expression<Func<T, T2, object>> expression, OrderByType type = OrderByType.Asc)
+        {
+            _OrderBy(expression, type);
+            return this;
+        }
+
+        public new IQueryable<T, T2> OrderBy(Expression<Func<T, object>> expression, OrderByType type)
+        {
+            _OrderBy(expression, type);
+            return this;
+        }
+
+        #endregion Order
+
+        #region GroupBy
+
+        public new IQueryable<T, T2> GroupBy(Expression<Func<T, object>> expression)
+        {
+            _GroupBy(expression);
+            return this;
+        }
+
+        public IQueryable<T, T2> GroupBy(Expression<Func<T, T2, object>> expression)
+        {
+            _GroupBy(expression);
+            return this;
+        }
+
+        #endregion GroupBy
+
+        #region Aggr
+
+        public TResult Max<TResult>(Expression<Func<T, T2, TResult>> expression)
+        {
+            return _Max<TResult>(expression);
+        }
+
+        public TResult Min<TResult>(Expression<Func<T, T2, TResult>> expression)
+        {
+            return _Min<TResult>(expression);
+        }
+
+        public TResult Sum<TResult>(Expression<Func<T, T2, TResult>> expression)
+        {
+            return _Sum<TResult>(expression);
+        }
+
+        public TResult Avg<TResult>(Expression<Func<T, T2, TResult>> expression)
+        {
+            return _Avg<TResult>(expression);
+        }
+
+        #endregion Aggr
+
+        #region In
+
+        public new IQueryable<T, T2> In<FieldType>(Expression<Func<T, object>> expression, params FieldType[] inValues)
+        {
+            var isSingle = QueryBuilder.IsSingle();
+            var lamResult = QueryBuilder.GetExpressionValue(expression, isSingle ? ResolveExpressType.FieldSingle : ResolveExpressType.FieldMultiple);
+            var fieldName = lamResult.GetResultString();
+            In(fieldName, inValues);
+            return this;
+        }
+
+        public new IQueryable<T, T2> In<FieldType>(Expression<Func<T, object>> expression, List<FieldType> inValues)
+        {
+            var isSingle = QueryBuilder.IsSingle();
+            var lamResult = QueryBuilder.GetExpressionValue(expression, isSingle ? ResolveExpressType.FieldSingle : ResolveExpressType.FieldMultiple);
+            var fieldName = lamResult.GetResultString();
+            In(fieldName, inValues);
+            return this;
+        }
+
+        public new IQueryable<T, T2> In<FieldType>(Expression<Func<T, object>> expression, Interface.IQueryable<FieldType> childQueryExpression)
+        {
+            //  var sqlObj = childQueryExpression.();
+            //  _InQueryable(expression, sqlObj);
+            return null;
+        }
+
+        #endregion In
+
+        #region Other
+
+        public new IQueryable<T, T2> AS<AsT>(string tableName)
+        {
+            var entityName = typeof(AsT).Name;
+            _As(tableName, entityName);
+            return this;
+        }
+
+        public new IQueryable<T, T2> AS(string tableName)
+        {
+            var entityName = typeof(T).Name;
+            _As(tableName, entityName);
+            return this;
+        }
+
+        public new IQueryable<T, T2> Filter(string FilterName, bool isDisabledGobalFilter = false)
+        {
+            //  _Filter(FilterName, isDisabledGobalFilter);
+            return null;
+        }
+
+        public new IQueryable<T, T2> AddParameters(object parameters)
+        {
+            if (parameters != null)
+                QueryBuilder.Parameters.AddRange(Context.Ado.GetParameters(parameters));
+            return this;
+        }
+
+        public new IQueryable<T, T2> AddParameters(Parameter[] parameters)
+        {
+            if (parameters != null)
+                QueryBuilder.Parameters.AddRange(parameters);
+            return this;
+        }
+
+        public new IQueryable<T, T2> AddParameters(List<Parameter> parameters)
+        {
+            if (parameters != null)
+                QueryBuilder.Parameters.AddRange(parameters);
+            return this;
+        }
+
+        public new IQueryable<T, T2> AddJoinInfo(string tableName, string shortName, string joinWhere, JoinType type = JoinType.Left)
+        {
+            QueryBuilder.JoinIndex = +1;
+            QueryBuilder.JoinQueryInfos
+                .Add(new JoinQueryInfo()
+                {
+                    JoinIndex = QueryBuilder.JoinIndex,
+                    TableName = tableName,
+                    ShortName = shortName,
+                    JoinType = type,
+                    JoinWhere = joinWhere
+                });
+            return this;
+        }
+
+        public new IQueryable<T, T2> With(string withString)
+        {
+            base.With(withString);
+            return this;
+        }
+
+        #endregion Other
+    }
+
+    #endregion T2
 }

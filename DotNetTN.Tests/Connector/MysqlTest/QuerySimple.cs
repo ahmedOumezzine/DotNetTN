@@ -1,4 +1,5 @@
-﻿using DotNetTN.Connector.SQL.Mapping;
+﻿using DotNetTN.Connector.SQL.Entities;
+using DotNetTN.Connector.SQL.Mapping;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -78,6 +79,27 @@ namespace DotNetTN.Tests.Connector.MysqlTest
         {
             String y = "2";
             var data2 = DotNetTNConnector.GetList<Student>(it => it.Name == y);
+            Console.Write(data2);
+        }
+
+        [TestMethod]
+        public void JoinLeft()
+        {
+            var data2 = DotNetTNConnector.join<Student, School>(JoinType.Left, (st, sc) => st.SchoolId == sc.Id);
+            Console.Write(data2);
+        }
+
+        [TestMethod]
+        public void JoinRight()
+        {
+            var data2 = DotNetTNConnector.join<Student, School>(JoinType.Right, (st, sc) => st.SchoolId == sc.Id);
+            Console.Write(data2);
+        }
+
+        [TestMethod]
+        public void JoinRightWhere()
+        {
+            var data2 = DotNetTNConnector.join<Student, School>(JoinType.Right, (st, sc) => st.SchoolId == sc.Id);
             Console.Write(data2);
         }
     }

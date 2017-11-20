@@ -252,6 +252,11 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
             return reval;
         }
 
+        public virtual string GetjointuresSQL()
+        {
+            return this.sql.ToString();
+        }
+
         public virtual string ToSqlString()
         {
             string oldOrderBy = this.OrderByValue;
