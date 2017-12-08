@@ -32,6 +32,8 @@ namespace DotNetTN.Connector.SQL.Interface
 
         new IQueryable<T, T2> Where(Expression<Func<T, bool>> expression);
 
+        new IQueryable<T, T2> Where(Expression<Func<T2, bool>> expression);
+
         IQueryable<T, T2> Where(Expression<Func<T, T2, bool>> expression);
 
         new IQueryable<T, T2> WhereIF(bool isWhere, Expression<Func<T, bool>> expression);

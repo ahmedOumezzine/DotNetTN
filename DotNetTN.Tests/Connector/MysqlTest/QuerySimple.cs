@@ -97,9 +97,16 @@ namespace DotNetTN.Tests.Connector.MysqlTest
         }
 
         [TestMethod]
-        public void JoinRightWhere()
+        public void JoinWhere()
         {
-            var data2 = DotNetTNConnector.join<Student, School>(JoinType.Right, (st, sc) => st.SchoolId == sc.Id);
+            var data2 = DotNetTNConnector.joinWhere1<Student, School>(JoinType.Right, (st, sc) => st.SchoolId == sc.Id, it => it.Name == "dd");
+            Console.Write(data2);
+        }
+
+        [TestMethod]
+        public void JoinWhere2()
+        {
+            var data2 = DotNetTNConnector.joinWhere2<Student, School>(JoinType.Right, (st, sc) => st.SchoolId == sc.Id, it => it.Name == "dd");
             Console.Write(data2);
         }
     }

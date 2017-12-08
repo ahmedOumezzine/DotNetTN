@@ -661,6 +661,9 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
 
         protected void _Where(Expression expression)
         {
+            var isSingle = QueryBuilder.IsSingle();
+            var result = QueryBuilder.GetExpressionValue(expression, isSingle ? ResolveExpressType.WhereSingle : ResolveExpressType.WhereMultiple);
+            QueryBuilder.WhereInfos.Add(SqlBuilder.AppendWhereOrAnd(QueryBuilder.WhereInfos.IsNullOrEmpty(), result.GetResultString()));
         }
 
         protected Interface.IQueryable<T> _OrderBy(Expression expression, OrderByType type = OrderByType.Asc)
@@ -827,6 +830,12 @@ namespace DotNetTN.Connector.SQL.SqlBuilderProvider
         #region Where
 
         public new IQueryable<T, T2> Where(Expression<Func<T, bool>> expression)
+        {
+            _Where(expression);
+            return this;
+        }
+
+        public new IQueryable<T, T2> Where(Expression<Func<T2, bool>> expression)
         {
             _Where(expression);
             return this;

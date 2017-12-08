@@ -40,7 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CryptoClass.cs" />
+    <Compile Include="Cryptage\CryptoClass.cs" />
+    <Compile Include="Cryptage\PBKDF2Class.cs" />
     <Compile Include="Expression\MethodKey.cs" />
     <Compile Include="Object\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

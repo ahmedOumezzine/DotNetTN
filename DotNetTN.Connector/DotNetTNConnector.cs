@@ -40,6 +40,16 @@ namespace DotNetTN.Connector
             return this.Context.Queryable<T, T2>(JoinType, joinExpression).ToListJOIN();
         }
 
+        public List<T> joinWhere1<T, T2>(JoinType JoinType, Expression<Func<T, T2, bool>> joinExpression, Expression<Func<T, bool>> expression) where T : class, new()
+        {
+            return this.Context.Queryable<T, T2>(JoinType, joinExpression).Where(expression).ToListJOIN();
+        }
+
+        public List<T> joinWhere2<T, T2>(JoinType JoinType, Expression<Func<T, T2, bool>> joinExpression, Expression<Func<T2, bool>> expression) where T : class, new()
+        {
+            return this.Context.Queryable<T, T2>(JoinType, joinExpression).Where(expression).ToListJOIN();
+        }
+
         public bool Insert<T>(T insertObj) where T : class, new()
         {
             return this.Context.Insertable(insertObj).ExecuteCommand() > 0;
