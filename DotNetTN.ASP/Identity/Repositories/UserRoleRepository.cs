@@ -24,7 +24,7 @@ namespace DotNetTN.ASP.Identity.Repositories
                 };
 
                 var idObject = MySqlHelper.ExecuteScalar(conn, CommandType.Text,
-                    @"SELECT Id FROM aspnetroles WHERE Name=@RoleName", parameters);
+                    @"SELECT Id FROM identity_usersroles WHERE Name=@RoleName", parameters);
                 string roleId = idObject == null ? null : idObject.ToString();
 
                 if (!string.IsNullOrEmpty(roleId))
@@ -53,7 +53,7 @@ namespace DotNetTN.ASP.Identity.Repositories
                 };
 
                 var idObject = MySqlHelper.ExecuteScalar(conn, CommandType.Text,
-                    @"SELECT Id FROM aspnetroles WHERE Name=@RoleName", parameters);
+                    @"SELECT Id FROM identity_usersroles WHERE Name=@RoleName", parameters);
                 string roleId = idObject == null ? null : idObject.ToString();
 
                 if (!string.IsNullOrEmpty(roleId))
@@ -104,7 +104,7 @@ namespace DotNetTN.ASP.Identity.Repositories
                 };
 
                     var reader = MySqlHelper.ExecuteReader(conn, CommandType.Text,
-                        @"SELECT Name FROM aspnetroles Where Id=@Id", parameters);
+                        @"SELECT Name FROM identity_usersroles Where Id=@Id", parameters);
                     while (reader.Read())
                     {
                         listRoles.Add(reader[0].ToString());
